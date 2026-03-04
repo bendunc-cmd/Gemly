@@ -306,27 +306,14 @@ function renderQueue() {
 // === CORE PIPELINE ===
 
 async function uploadToFal(dataUrl) {
-  // Convert data URL to blob and upload to FAL storage
-  const blob = await (await fetch(dataUrl)).blob();
-  const formData = new FormData();
-  formData.append('file', blob, 'jewelry.png');
-  
-  const res = await fetch('https://fal.run/fal-ai/storage/upload', {
-    method: 'POST',
-    headers: { 'Authorization': 'Key ' + FAL_KEY },
-    body: formData
-  });
-  
-  if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new Error('FAL upload failed: ' + res.status + ' ' + errText.substring(0, 200));
+  // FAL natively supports base64 data URIs — no upload step needed
+  // Just return the data URL directly; FAL will decode it server-side
+  if (dataUrl.startsWith('data:')) {
+    console.log('[Gemly] Using data URI directly (FAL supports base64 natively)');
+    return dataUrl;
   }
-  
-  const data = await res.json();
-  const url = data.url || data.file_url || data.access_url;
-  if (!url) throw new Error('FAL upload returned no URL: ' + JSON.stringify(data).substring(0, 200));
-  console.log('[Gemly] FAL upload success:', url.substring(0, 60) + '...');
-  return url;
+  // If it's already a regular URL, return as-is
+  return dataUrl;
 }
 
 async function removeBg(imageUrl) {
