@@ -115,6 +115,15 @@ a{color:var(--gold);text-decoration:none}
     <div class="scene-selector" id="sceneSelector"></div>
   </div>
 
+  <div style="margin-bottom:20px;padding:14px 18px;background:var(--s2);border:1px solid var(--b1);border-radius:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <span style="font-size:12px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em">Item Orientation</span>
+    <div style="display:flex;gap:8px">
+      <button id="orientFlat" class="scene-chip active" onclick="setOrientation('flat')">⬛ Flat / Natural</button>
+      <button id="orientUpright" class="scene-chip" onclick="setOrientation('upright')">🔲 Standing Upright</button>
+    </div>
+    <span style="font-size:11px;color:var(--t3)">Upright adds a prompt instruction to stand the ring on its edge</span>
+  </div>
+
   <div class="progress-bar" id="progressBar" style="display:none"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   <div id="progressText" style="font-size:12px;color:var(--t2);margin-top:6px;display:none"></div>
 
@@ -140,7 +149,7 @@ const SCENES = [
   {
     id: 'dark', name: 'Dark Luxury',
     swatch: 'linear-gradient(135deg,#0a090e,#181620)', bgColor: '#0a0a0e',
-    prompt: 'Using this image, the jewelry piece must remain EXACTLY as it is — this is critical: preserve the EXACT metal color (silver stays silver, gold stays gold, rose gold stays rose gold), texture, shape, and every detail. Do NOT change the metal color under any circumstances. Only change the background: place the jewelry on a glossy black obsidian-like reflective surface. Dramatic chiaroscuro lighting — a single cool-to-neutral key light from the right catching the metal edges with brilliant rim highlights that match the jewelry\'s actual metal color. Soft dark bokeh in the background. Deep shadows. Moody, high-end jewelry campaign aesthetic. Shot with a 100mm macro at f/2.2. The metal color must not shift — silver must stay silver.'
+    prompt: 'This is a product photography background replacement. The jewelry in this image must not change in any way — its shape, size, metal color, and surface finish are locked and must be preserved exactly. Do not reinterpret or re-render the jewelry. Only the background changes. New background: a polished jet-black surface with subtle mirror-like reflections beneath the piece. Lighting: a single hard spotlight at 45 degrees above-right, striking the metal edges to create crisp bright rim highlights — specular highlights must reflect the actual metal color of the jewelry, not add any warmth or gold cast. Deep black shadows fill the rest of the frame. Mood: luxury campaign photography in the style of Bulgari or Cartier. Camera: 100mm macro, f/2.2, ISO 100. No warm color grading. No amber. No bokeh orbs.'
   },
   {
     id: 'botanical', name: 'Botanical Flat',
@@ -160,7 +169,7 @@ const SCENES = [
   {
     id: 'candleglow', name: 'Candle Glow',
     swatch: 'linear-gradient(135deg,#2a1a08,#5c3a10)', bgColor: '#1a1008',
-    prompt: 'Using this image, the jewelry piece must remain EXACTLY as it is — this is critical: preserve the EXACT metal color (silver stays silver, gold stays gold, rose gold stays rose gold), texture, shape, and every detail. Do NOT let warm lighting change the metal color. Only change the background: place the jewelry on a dark warm wooden surface with warm amber candlelight in the scene. The candlelight illuminates the background and creates atmosphere, but the jewelry itself must retain its true metal color — silver jewelry must appear silver, not gold. Soft out-of-focus golden bokeh orbs in the dark background. Intimate, warm, romantic mood. Very shallow depth of field, f/1.4, 85mm lens. Do not recolor the jewelry metal.'
+    prompt: 'This is a product photography background replacement. The jewelry in this image must not change in any way — its shape, size, metal color, and surface finish are locked and must be preserved exactly. Do not reinterpret or re-render the jewelry. Only the background changes. New background: a dark aged walnut wood surface, low and flat. Behind the jewelry, soft out-of-focus candlelight creates warm golden bokeh — glowing amber orbs of light in the background distance. The candles and warm light exist only in the background; the jewelry itself is lit by a neutral soft fill light from above so its true metal color reads correctly. The mood is intimate and romantic — like a fine jewelry editorial shot on location by candlelight. Camera: 85mm, f/1.4, shallow depth of field. The background glows warm; the jewelry remains true to its actual metal finish.'
   },
   {
     id: 'rosepetal', name: 'Rose & Cream',
@@ -177,6 +186,16 @@ const SCENES = [
 let queue = [];
 let selectedScenes = new Set(['velvet','marble','dark','botanical','onhand','warmsuede','candleglow','rosepetal','concrete']);
 let isRunning = false;
+let itemOrientation = 'flat'; // 'flat' or 'upright'
+
+function setOrientation(val) {
+  itemOrientation = val;
+  document.getElementById('orientFlat').classList.toggle('active', val === 'flat');
+  document.getElementById('orientUpright').classList.toggle('active', val === 'upright');
+}
+
+const UPRIGHT_PREFIX = 'First, reposition the jewelry so it is standing upright on its edge — the ring should be vertical, balanced on the surface like a display stand would hold it, seen from a slight angle. Then apply this scene: ';
+
 
 function initSceneSelector() {
   const el = document.getElementById('sceneSelector');
@@ -392,7 +411,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
     },
     body: JSON.stringify({
       image_urls: [compositeDataUrl],
-      prompt: scene.prompt,
+      prompt: (itemOrientation === 'upright' && scene.id !== 'onhand') ? UPRIGHT_PREFIX + scene.prompt : scene.prompt,
       aspect_ratio: '1:1',
       output_format: 'jpeg',
       num_images: 1,
