@@ -16,7 +16,6 @@ a{color:var(--gold);text-decoration:none}
 .header h1{font-size:32px;margin-bottom:8px}
 .header p{color:var(--t2);font-size:15px}
 
-/* Input Section */
 .input-section{max-width:900px;margin:0 auto 40px;background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:28px}
 .input-section h2{font-size:20px;margin-bottom:16px}
 .url-input-row{display:flex;gap:10px;margin-bottom:12px}
@@ -39,7 +38,6 @@ a{color:var(--gold);text-decoration:none}
 .upload-zone p{color:var(--t2);font-size:14px}
 .upload-zone input{display:none}
 
-/* Queue */
 .queue{max-width:900px;margin:0 auto 40px}
 .queue h2{font-size:20px;margin-bottom:16px}
 .queue-item{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:20px;margin-bottom:16px}
@@ -58,13 +56,11 @@ a{color:var(--gold);text-decoration:none}
 @keyframes spin{to{transform:rotate(360deg)}}
 .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--b2);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
 
-/* Scene selector */
 .scene-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
 .scene-chip{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--b2);background:transparent;color:var(--t2);transition:all .15s}
 .scene-chip.active{border-color:var(--gold);background:rgba(201,169,110,.1);color:var(--gold)}
 .scene-chip:hover{border-color:rgba(201,169,110,.3)}
 
-/* Results grid */
 .results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:16px}
 .result-card{background:var(--s2);border:1px solid var(--b1);border-radius:12px;overflow:hidden;transition:all .2s}
 .result-card:hover{border-color:rgba(201,169,110,.2)}
@@ -76,13 +72,11 @@ a{color:var(--gold);text-decoration:none}
 .ba-label.after{right:8px;color:var(--gold)}
 .result-actions{padding:10px 14px;display:flex;gap:8px;justify-content:flex-end}
 
-/* Batch controls */
 .batch-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px}
 .batch-controls label{font-size:13px;color:var(--t2)}
 .progress-bar{height:4px;background:var(--b1);border-radius:2px;overflow:hidden;margin-top:8px}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:2px;transition:width .3s}
 
-/* Toast */
 .toast{position:fixed;bottom:24px;right:24px;background:var(--s1);border:1px solid var(--b2);border-radius:10px;padding:12px 20px;font-size:13px;color:var(--ivory);opacity:0;transform:translateY(10px);transition:all .3s;z-index:1000;pointer-events:none}
 .toast.show{opacity:1;transform:translateY(0)}
 </style>
@@ -180,11 +174,10 @@ const SCENES = [
   }
 ];
 
-let queue = []; // {id, name, originalUrl, originalDataUrl, results: {sceneId: url}}
+let queue = [];
 let selectedScenes = new Set(['velvet','marble','dark','botanical','onhand','warmsuede','candleglow','rosepetal','concrete']);
 let isRunning = false;
 
-// Init scene selector
 function initSceneSelector() {
   const el = document.getElementById('sceneSelector');
   SCENES.forEach(s => {
@@ -201,7 +194,6 @@ function initSceneSelector() {
 }
 initSceneSelector();
 
-// Upload zone
 const uploadZone = document.getElementById('uploadZone');
 const fileInput = document.getElementById('fileInput');
 uploadZone.onclick = () => fileInput.click();
@@ -314,22 +306,27 @@ function renderQueue() {
 // === CORE PIPELINE ===
 
 async function uploadToFal(dataUrl) {
-  try {
-    const blob = await (await fetch(dataUrl)).blob();
-    const formData = new FormData();
-    formData.append('file', blob, 'jewelry.jpg');
-    const res = await fetch('https://fal.run/fal-ai/any/upload', {
-      method: 'POST',
-      headers: { 'Authorization': 'Key ' + FAL_KEY },
-      body: formData
-    });
-    if (!res.ok) throw new Error('Upload status: ' + res.status);
-    const data = await res.json();
-    return data.url || data.file_url;
-  } catch(e) {
-    console.warn('[Gemly] FAL upload failed, using data URL directly:', e.message);
-    return dataUrl; // Fallback: pass data URL directly to BiRefNet/NB Pro
+  // Convert data URL to blob and upload to FAL storage
+  const blob = await (await fetch(dataUrl)).blob();
+  const formData = new FormData();
+  formData.append('file', blob, 'jewelry.png');
+  
+  const res = await fetch('https://fal.run/fal-ai/storage/upload', {
+    method: 'POST',
+    headers: { 'Authorization': 'Key ' + FAL_KEY },
+    body: formData
+  });
+  
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error('FAL upload failed: ' + res.status + ' ' + errText.substring(0, 200));
   }
+  
+  const data = await res.json();
+  const url = data.url || data.file_url || data.access_url;
+  if (!url) throw new Error('FAL upload returned no URL: ' + JSON.stringify(data).substring(0, 200));
+  console.log('[Gemly] FAL upload success:', url.substring(0, 60) + '...');
+  return url;
 }
 
 async function removeBg(imageUrl) {
@@ -400,39 +397,33 @@ function prepareComposite(croppedDataUrl, bgColor) {
   });
 }
 
-async function generateScene(imageDataUrl, scene) {
-  // Full pipeline - used for single generations
-  const uploadedUrl = await uploadToFal(imageDataUrl);
-  const bgRemovedUrl = await removeBg(uploadedUrl);
-  if (!bgRemovedUrl) throw new Error('BG removal failed');
-  let bgImg;
-  try {
-    bgImg = await loadImage(bgRemovedUrl);
-  } catch(e) {
-    const blobRes = await fetch(bgRemovedUrl);
-    const blob = await blobRes.blob();
-    bgImg = await loadImage(URL.createObjectURL(blob));
-  }
-  const croppedDataUrl = autoCrop(bgImg);
-  return generateSceneFromCropped(croppedDataUrl, scene);
-}
-
 async function generateSceneFromCropped(croppedDataUrl, scene) {
   // Prepare composite with scene background color
   const compositeDataUrl = await prepareComposite(croppedDataUrl, scene.bgColor);
+  
+  // Must upload composite to get a real hosted URL — NB Pro won't accept data URLs
   const compositeUrl = await uploadToFal(compositeDataUrl);
 
-  // Generate with NB Pro
   const genRes = await fetch('https://fal.run/fal-ai/nano-banana-pro/edit', {
     method: 'POST',
     headers: {
       'Authorization': 'Key ' + FAL_KEY,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ image_url: compositeUrl, prompt: scene.prompt })
+    body: JSON.stringify({
+      image_url: compositeUrl,
+      prompt: scene.prompt,
+      aspect_ratio: '1:1',
+      output_format: 'jpeg',
+      num_images: 1,
+      safety_tolerance: '6'
+    })
   });
 
-  if (!genRes.ok) throw new Error('Generation failed: ' + genRes.status);
+  if (!genRes.ok) {
+    const errText = await genRes.text().catch(() => '');
+    throw new Error('Generation failed: ' + genRes.status + ' ' + errText.substring(0, 300));
+  }
   const genData = await genRes.json();
   const resultUrl = genData.images?.[0]?.url || genData.image?.url;
   if (!resultUrl) throw new Error('No result URL in response: ' + JSON.stringify(genData).substring(0, 200));
@@ -485,7 +476,6 @@ async function runAll() {
     item.status = 'running';
     renderQueue();
 
-    // Get the image data URL (fetch if URL)
     let dataUrl = item.originalDataUrl;
     if (!dataUrl) {
       try {
@@ -496,6 +486,7 @@ async function runAll() {
         dataUrl = c.toDataURL('image/png');
         item.originalDataUrl = dataUrl;
       } catch(e) {
+        console.error(`[Gemly] Failed to load image: ${item.name}`, e);
         item.status = 'error';
         completed += scenesToRun.length;
         updateProgress(completed, totalJobs);
@@ -504,7 +495,7 @@ async function runAll() {
       }
     }
 
-    // Upload once and remove BG once for this photo
+    // Upload once and remove BG once per photo
     let croppedDataUrl;
     try {
       updateProgress(completed, totalJobs, `Uploading ${item.name}...`);
@@ -516,7 +507,6 @@ async function runAll() {
       const bgRemovedUrl = await removeBg(uploadedUrl);
       if (!bgRemovedUrl) throw new Error('BG removal returned no URL');
 
-      // Load and auto-crop
       let bgImg;
       try {
         bgImg = await loadImage(bgRemovedUrl);
@@ -536,7 +526,7 @@ async function runAll() {
       continue;
     }
 
-    // Now generate each scene using the already-cropped image
+    // Generate each scene
     for (const scene of scenesToRun) {
       try {
         updateProgress(completed, totalJobs, `Generating ${item.name} → ${scene.name}...`);
@@ -586,7 +576,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// URL input enter key
 document.getElementById('urlInput').addEventListener('keydown', e => {
   if (e.key === 'Enter') addFromUrl();
 });
