@@ -306,32 +306,8 @@ function renderQueue() {
 // === CORE PIPELINE ===
 
 async function uploadToFal(dataUrl) {
-  if (!dataUrl.startsWith('data:')) return dataUrl;
-  
-  const res = await fetch(dataUrl);
-  const blob = await res.blob();
-  
-  // Use FAL's correct storage upload REST endpoint
-  const uploadRes = await fetch('https://fal.run/fal-ai/uploads', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Key ' + FAL_KEY,
-      'Content-Type': blob.type || 'image/png',
-      'Accept': 'application/json'
-    },
-    body: blob
-  });
-  
-  if (!uploadRes.ok) {
-    const err = await uploadRes.text().catch(() => '');
-    throw new Error('FAL upload failed: ' + uploadRes.status + ' ' + err.substring(0, 200));
-  }
-  
-  const data = await uploadRes.json();
-  const url = data.url || data.file_url || data.access_url;
-  if (!url) throw new Error('FAL upload returned no URL: ' + JSON.stringify(data).substring(0, 200));
-  console.log('[Gemly] Uploaded to FAL:', url.substring(0, 80));
-  return url;
+  // Main app passes data URLs directly to NB Pro — no upload needed
+  return dataUrl;
 }
 
 async function removeBg(imageUrl) {
@@ -406,8 +382,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
   // Prepare composite with scene background color
   const compositeDataUrl = await prepareComposite(croppedDataUrl, scene.bgColor);
   
-  // Must upload composite to get a real hosted URL — NB Pro won't accept data URLs
-  const compositeUrl = await uploadToFal(compositeDataUrl);
+  // Pass data URL directly to NB Pro — same approach as main app
 
   const genRes = await fetch('https://fal.run/fal-ai/nano-banana-pro/edit', {
     method: 'POST',
@@ -416,7 +391,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      image_urls: [compositeUrl],
+      image_urls: [compositeDataUrl],
       prompt: scene.prompt,
       aspect_ratio: '1:1',
       output_format: 'jpeg',
@@ -500,16 +475,12 @@ async function runAll() {
       }
     }
 
-    // Upload once and remove BG once per photo
+    // Remove BG once per photo — pass data URL directly (same as main app)
     let croppedDataUrl;
     try {
-      updateProgress(completed, totalJobs, `Uploading ${item.name}...`);
-      console.log(`[Gemly] Uploading: ${item.name}`);
-      const uploadedUrl = await uploadToFal(dataUrl);
-      
       updateProgress(completed, totalJobs, `Removing background for ${item.name}...`);
       console.log(`[Gemly] Removing BG: ${item.name}`);
-      const bgRemovedUrl = await removeBg(uploadedUrl);
+      const bgRemovedUrl = await removeBg(dataUrl);
       if (!bgRemovedUrl) throw new Error('BG removal returned no URL');
 
       let bgImg;
