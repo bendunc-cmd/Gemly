@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gemly Studio — Batch Before/After Generator</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--gold:#c9a96e;--gold-l:#e0c992;--gold-d:#a08040;--bg:#0c0b10;--s1:#111018;--s2:#181620;--ivory:#f5f0e8;--t1:rgba(255,255,255,.9);--t2:rgba(255,255,255,.5);--t3:rgba(255,255,255,.22);--b1:rgba(255,255,255,.06);--b2:rgba(255,255,255,.1)}
+body{min-height:100vh;background:var(--bg);color:var(--ivory);font-family:'Outfit',system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:24px}
+h1,h2,h3{font-family:'Playfair Display',serif}
+a{color:var(--gold);text-decoration:none}
+
+.header{text-align:center;padding:40px 0 32px;border-bottom:1px solid var(--b1);margin-bottom:32px}
+.header h1{font-size:32px;margin-bottom:8px}
+.header p{color:var(--t2);font-size:15px}
+
+/* Input Section */
+.input-section{max-width:900px;margin:0 auto 40px;background:var(--s1);border:1px solid var(--b1);border-radius:16px;padding:28px}
+.input-section h2{font-size:20px;margin-bottom:16px}
+.url-input-row{display:flex;gap:10px;margin-bottom:12px}
+.url-input{flex:1;background:var(--s2);border:1px solid var(--b2);border-radius:10px;padding:12px 16px;color:var(--ivory);font-size:14px;font-family:inherit;outline:none;transition:border-color .2s}
+.url-input:focus{border-color:var(--gold)}
+.btn{padding:12px 24px;border-radius:10px;background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#0c0b10;font-size:14px;font-weight:700;font-family:inherit;border:none;cursor:pointer;transition:all .2s;white-space:nowrap}
+.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-sm{padding:8px 16px;font-size:12px;border-radius:8px}
+.btn-outline{background:transparent;border:1px solid var(--gold);color:var(--gold)}
+.btn-outline:hover{background:rgba(201,169,110,.1)}
+.btn-danger{background:transparent;border:1px solid #e85555;color:#e85555}
+.btn-danger:hover{background:rgba(232,85,85,.1)}
+
+.or-divider{text-align:center;color:var(--t3);font-size:12px;padding:8px 0;text-transform:uppercase;letter-spacing:.1em}
+
+.upload-zone{border:2px dashed var(--b2);border-radius:12px;padding:32px;text-align:center;cursor:pointer;transition:all .2s}
+.upload-zone:hover{border-color:var(--gold);background:rgba(201,169,110,.03)}
+.upload-zone.dragover{border-color:var(--gold);background:rgba(201,169,110,.06)}
+.upload-zone p{color:var(--t2);font-size:14px}
+.upload-zone input{display:none}
+
+/* Queue */
+.queue{max-width:900px;margin:0 auto 40px}
+.queue h2{font-size:20px;margin-bottom:16px}
+.queue-item{background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:20px;margin-bottom:16px}
+.queue-header{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.queue-thumb{width:80px;height:80px;object-fit:cover;border-radius:10px;border:1px solid var(--b2)}
+.queue-info{flex:1}
+.queue-info h3{font-size:16px;font-family:'Outfit',sans-serif;font-weight:600;margin-bottom:4px}
+.queue-info p{font-size:13px;color:var(--t2)}
+.queue-status{font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px}
+.status-pending{background:rgba(255,255,255,.06);color:var(--t2)}
+.status-running{background:rgba(201,169,110,.12);color:var(--gold);animation:pulse 1.5s infinite}
+.status-done{background:rgba(80,200,120,.12);color:#50c878}
+.status-error{background:rgba(232,85,85,.12);color:#e85555}
+
+@keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--b2);border-top-color:var(--gold);border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+
+/* Scene selector */
+.scene-selector{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.scene-chip{padding:6px 14px;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--b2);background:transparent;color:var(--t2);transition:all .15s}
+.scene-chip.active{border-color:var(--gold);background:rgba(201,169,110,.1);color:var(--gold)}
+.scene-chip:hover{border-color:rgba(201,169,110,.3)}
+
+/* Results grid */
+.results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;margin-top:16px}
+.result-card{background:var(--s2);border:1px solid var(--b1);border-radius:12px;overflow:hidden;transition:all .2s}
+.result-card:hover{border-color:rgba(201,169,110,.2)}
+.result-label{padding:8px 14px;font-size:11px;font-weight:600;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--b1)}
+.before-after{display:grid;grid-template-columns:1fr 1fr;position:relative}
+.before-after img{width:100%;height:200px;object-fit:contain;background:#080810}
+.ba-label{position:absolute;bottom:8px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:3px 8px;border-radius:4px;background:rgba(0,0,0,.7)}
+.ba-label.before{left:8px}
+.ba-label.after{right:8px;color:var(--gold)}
+.result-actions{padding:10px 14px;display:flex;gap:8px;justify-content:flex-end}
+
+/* Batch controls */
+.batch-controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:16px}
+.batch-controls label{font-size:13px;color:var(--t2)}
+.progress-bar{height:4px;background:var(--b1);border-radius:2px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:2px;transition:width .3s}
+
+/* Toast */
+.toast{position:fixed;bottom:24px;right:24px;background:var(--s1);border:1px solid var(--b2);border-radius:10px;padding:12px 20px;font-size:13px;color:var(--ivory);opacity:0;transform:translateY(10px);transition:all .3s;z-index:1000;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Gemly Studio — Batch Tester</h1>
+  <p>Generate before/after comparisons across all scenes for marketing</p>
+</div>
+
+<div class="input-section">
+  <h2>Add Photos</h2>
+  <div class="url-input-row">
+    <input type="text" class="url-input" id="urlInput" placeholder="Paste an image URL (e.g. from Unsplash, Etsy, or any direct image link)">
+    <button class="btn" onclick="addFromUrl()">Add URL</button>
+  </div>
+  <div class="or-divider">— or upload from your device —</div>
+  <div class="upload-zone" id="uploadZone">
+    <p>Drop jewelry photos here or <strong style="color:var(--gold)">click to browse</strong></p>
+    <input type="file" id="fileInput" accept="image/*" multiple>
+  </div>
+</div>
+
+<div class="queue" id="queueSection" style="display:none">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <h2>Photo Queue</h2>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-sm btn-outline" onclick="clearQueue()">Clear All</button>
+      <button class="btn btn-sm" id="runAllBtn" onclick="runAll()">Generate All Scenes</button>
+    </div>
+  </div>
+
+  <div style="margin-bottom:16px">
+    <label style="font-size:13px;color:var(--t2);display:block;margin-bottom:8px">Select scenes to generate:</label>
+    <div class="scene-selector" id="sceneSelector"></div>
+  </div>
+
+  <div class="progress-bar" id="progressBar" style="display:none"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div id="progressText" style="font-size:12px;color:var(--t2);margin-top:6px;display:none"></div>
+
+  <div id="queueList"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const FAL_KEY = 'c21e9cd3-3a7a-4c35-b6fa-d7082981e22f:e0a7e4cfc1c98ad6510ee22b7ca18ff7';
+
+const SCENES = [
+  {
+    id: 'velvet', name: 'Purple Silk', desc: 'Luxe silk drape',
+    swatch: 'linear-gradient(135deg,#1a1428,#2d2040)', bgColor: '#1a1020',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry resting on draped dark plum-purple silk charmeuse. The fabric must be perfectly smooth and glossy like liquid satin — absolutely no woven texture, no rough fibers, no velvet pile. The silk should have elegant flowing folds with warm golden highlights gliding across the smooth surface and rich deep shadows in the creases. Warm directional studio lighting from the upper left. Shallow depth of field, background folds soft and dreamy. Cartier campaign aesthetic. 90mm macro lens, f/1.8, Phase One medium format. Do not change the jewelry\'s color or material in any way.'
+  },
+  {
+    id: 'marble', name: 'Marble & Gold',
+    swatch: 'linear-gradient(135deg,#eae4dc,#d0c4b4)', bgColor: '#f0ebe4',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry on a polished Calacatta marble surface with soft grey and gold veining. A thin gold tray edge visible at the corner adds warmth. Soft diffused natural window light from the left casting a delicate shadow. Shot with a 85mm lens at f/2.8. Clean, elegant, editorial jewelry photography. Do not change the jewelry\'s color or material in any way.'
+  },
+  {
+    id: 'dark', name: 'Dark Luxury',
+    swatch: 'linear-gradient(135deg,#0a090e,#181620)', bgColor: '#0a0a0e',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry on a glossy black obsidian-like reflective surface. Dramatic chiaroscuro lighting — a single warm key light from the right catching the metal edges with brilliant rim highlights. Soft warm amber bokeh orbs floating in the dark background. Deep shadows. Moody, high-end jewelry campaign aesthetic. Shot with a 100mm macro at f/2.2. Do not change the jewelry\'s color or material in any way.'
+  },
+  {
+    id: 'botanical', name: 'Botanical Flat',
+    swatch: 'linear-gradient(135deg,#d8ceb8,#b4a888)', bgColor: '#d8d0bb',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry on a natural oatmeal linen textile surface with beautiful woven texture. A small sprig of dried eucalyptus and a tiny terracotta dish nearby. Warm golden natural overhead light streaming in, casting soft organic shadows. Earthy boho flat-lay aesthetic. Shot from directly above, 50mm lens, f/3.5. Do not change the jewelry\'s color or material in any way.'
+  },
+  {
+    id: 'onhand', name: 'On-Hand',
+    swatch: 'linear-gradient(135deg,#e8d0b8,#c4a88c)', bgColor: '#e8dcc8',
+    prompt: 'Using this image of jewelry, place it naturally on a woman\'s hand/finger/wrist/ear as appropriate for this type of jewelry. Keep everything about the jewelry exactly the same — its original color, texture, shape, and proportions. The hand should have natural warm skin tone with soft, well-groomed nails. Close-up 85mm macro photograph, shallow depth of field, f/2.8, creamy bokeh. Soft golden-hour window lighting wrapping around the hand. Warm blurred neutral background. High-end lifestyle jewelry photography. The jewelry should look naturally worn and proportional to the hand.'
+  },
+  {
+    id: 'warmsuede', name: 'Warm Suede',
+    swatch: 'linear-gradient(135deg,#8B6914,#c4943c)', bgColor: '#8B6914',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry centered on a warm caramel-tan suede leather surface with ultra-fine soft nap texture. A single warm directional light from the upper right creating a gentle luminous hotspot on the suede and a soft shadow beneath the jewelry. The composition should be minimal and spacious — the jewelry is small in the frame, surrounded by generous negative space of warm suede. Intimate, editorial, warm color palette. Shot with a 50mm lens at f/2.0, very slight vignette at edges. Do not change the jewelry\'s color or material in any way.'
+  },
+  {
+    id: 'candleglow', name: 'Candle Glow',
+    swatch: 'linear-gradient(135deg,#2a1a08,#5c3a10)', bgColor: '#1a1008',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry on a dark warm wooden surface. Warm amber candlelight illuminating the scene from behind-left, creating beautiful golden rim highlights on the metal edges. Soft out-of-focus golden bokeh orbs floating in the dark background from distant candle flames. The mood is intimate, warm, romantic. Very shallow depth of field, f/1.4, 85mm lens. Rich warm shadows. The jewelry should glow as if lit by candlelight. Do not change the jewelry\'s color or material in any way.'
+  },
+  {
+    id: 'rosepetal', name: 'Rose & Cream',
+    swatch: 'linear-gradient(135deg,#e8c8c0,#f0e0d8)', bgColor: '#f0e0d8',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry on soft cream-white silk with a few scattered dried rose petals in soft blush pink nearby. Delicate and romantic. Soft diffused natural light from a window creating gentle pink-warm tones across the scene. Wedding editorial aesthetic. Ultra-shallow depth of field, 90mm macro, f/1.8. The petals should be slightly out of focus, the jewelry perfectly sharp. Do not change the jewelry\'s color or material in any way.'
+  },
+  {
+    id: 'concrete', name: 'Raw Concrete',
+    swatch: 'linear-gradient(135deg,#6b6b6b,#a0a0a0)', bgColor: '#808080',
+    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: place the jewelry on a smooth raw concrete surface with subtle grey texture and minimal imperfections. Cool directional side-lighting from the left creating dramatic shadows and highlighting the metal with crisp bright edges. Minimal, architectural, modern editorial feel. The contrast between raw industrial concrete and precious jewelry creates visual tension. 100mm macro, f/2.0, slightly desaturated tones. Do not change the jewelry\'s color or material in any way.'
+  }
+];
+
+let queue = []; // {id, name, originalUrl, originalDataUrl, results: {sceneId: url}}
+let selectedScenes = new Set(['velvet','marble','dark','botanical','onhand','warmsuede','candleglow','rosepetal','concrete']);
+let isRunning = false;
+
+// Init scene selector
+function initSceneSelector() {
+  const el = document.getElementById('sceneSelector');
+  SCENES.forEach(s => {
+    const chip = document.createElement('button');
+    chip.className = 'scene-chip' + (selectedScenes.has(s.id) ? ' active' : '');
+    chip.innerHTML = `<span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${s.swatch};margin-right:6px;vertical-align:middle"></span>${s.name}`;
+    chip.onclick = () => {
+      if (selectedScenes.has(s.id)) selectedScenes.delete(s.id);
+      else selectedScenes.add(s.id);
+      chip.classList.toggle('active');
+    };
+    el.appendChild(chip);
+  });
+}
+initSceneSelector();
+
+// Upload zone
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+uploadZone.onclick = () => fileInput.click();
+uploadZone.ondragover = e => { e.preventDefault(); uploadZone.classList.add('dragover'); };
+uploadZone.ondragleave = () => uploadZone.classList.remove('dragover');
+uploadZone.ondrop = e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  [...e.dataTransfer.files].forEach(addFile);
+};
+fileInput.onchange = () => [...fileInput.files].forEach(addFile);
+
+function addFile(file) {
+  const reader = new FileReader();
+  reader.onload = e => {
+    addToQueue(file.name, e.target.result, e.target.result);
+  };
+  reader.readAsDataURL(file);
+}
+
+function addFromUrl() {
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) return;
+  addToQueue(url.split('/').pop().split('?')[0] || 'image', url, null);
+  document.getElementById('urlInput').value = '';
+}
+
+function addToQueue(name, originalUrl, dataUrl) {
+  const item = {
+    id: 'q_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+    name: name.length > 40 ? name.slice(0,37) + '...' : name,
+    originalUrl,
+    originalDataUrl: dataUrl,
+    results: {},
+    status: 'pending'
+  };
+  queue.push(item);
+  renderQueue();
+  showToast('Photo added to queue');
+}
+
+function removeFromQueue(id) {
+  queue = queue.filter(q => q.id !== id);
+  renderQueue();
+}
+
+function clearQueue() {
+  if (isRunning) return showToast('Wait for current batch to finish');
+  queue = [];
+  renderQueue();
+}
+
+function renderQueue() {
+  const section = document.getElementById('queueSection');
+  const list = document.getElementById('queueList');
+  section.style.display = queue.length ? '' : 'none';
+
+  list.innerHTML = queue.map(item => {
+    const thumbSrc = item.originalDataUrl || item.originalUrl;
+    const statusClass = item.status === 'pending' ? 'status-pending' :
+                        item.status === 'running' ? 'status-running' :
+                        item.status === 'done' ? 'status-done' : 'status-error';
+    const statusText = item.status === 'pending' ? 'Pending' :
+                       item.status === 'running' ? '⏳ Generating...' :
+                       item.status === 'done' ? '✓ Done' : '✗ Error';
+
+    const resultsHtml = Object.keys(item.results).length ? `
+      <div class="results-grid">
+        ${Object.entries(item.results).filter(([_, url]) => url).map(([sceneId, url]) => {
+          const scene = SCENES.find(s => s.id === sceneId);
+          return `
+            <div class="result-card">
+              <div class="result-label">${scene ? scene.name : sceneId}</div>
+              <div class="before-after">
+                <div style="position:relative">
+                  <img src="${thumbSrc}" crossorigin="anonymous">
+                  <span class="ba-label before">Before</span>
+                </div>
+                <div style="position:relative">
+                  <img src="${url}" crossorigin="anonymous">
+                  <span class="ba-label after">After</span>
+                </div>
+              </div>
+              <div class="result-actions">
+                <button class="btn btn-sm btn-outline" onclick="downloadResult('${url}','${item.name}_${sceneId}')">Download</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    ` : '';
+
+    return `
+      <div class="queue-item">
+        <div class="queue-header">
+          <img src="${thumbSrc}" class="queue-thumb" crossorigin="anonymous">
+          <div class="queue-info">
+            <h3>${item.name}</h3>
+            <p>${Object.keys(item.results).length} / ${selectedScenes.size} scenes generated</p>
+          </div>
+          <span class="queue-status ${statusClass}">${statusText}</span>
+          <button class="btn btn-sm btn-danger" onclick="removeFromQueue('${item.id}')" ${item.status === 'running' ? 'disabled' : ''}>✕</button>
+        </div>
+        ${resultsHtml}
+      </div>
+    `;
+  }).join('');
+}
+
+// === CORE PIPELINE ===
+
+async function uploadToFal(dataUrl) {
+  try {
+    const blob = await (await fetch(dataUrl)).blob();
+    const formData = new FormData();
+    formData.append('file', blob, 'jewelry.jpg');
+    const res = await fetch('https://fal.run/fal-ai/any/upload', {
+      method: 'POST',
+      headers: { 'Authorization': 'Key ' + FAL_KEY },
+      body: formData
+    });
+    if (!res.ok) throw new Error('Upload status: ' + res.status);
+    const data = await res.json();
+    return data.url || data.file_url;
+  } catch(e) {
+    console.warn('[Gemly] FAL upload failed, using data URL directly:', e.message);
+    return dataUrl; // Fallback: pass data URL directly to BiRefNet/NB Pro
+  }
+}
+
+async function removeBg(imageUrl) {
+  const res = await fetch('https://fal.run/fal-ai/birefnet/v2', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Key ' + FAL_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      image_url: imageUrl,
+      model: 'General Use (Heavy)',
+      operating_resolution: '1024x1024',
+      output_format: 'png'
+    })
+  });
+  if (!res.ok) {
+    const errText = await res.text().catch(() => '');
+    throw new Error('BiRefNet failed: ' + res.status + ' ' + errText.substring(0, 200));
+  }
+  const data = await res.json();
+  return data.image?.url;
+}
+
+function autoCrop(img) {
+  const c = document.createElement('canvas');
+  c.width = img.naturalWidth || img.width;
+  c.height = img.naturalHeight || img.height;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  const d = ctx.getImageData(0, 0, c.width, c.height).data;
+  let t = c.height, b = 0, l = c.width, r = 0;
+  for (let y = 0; y < c.height; y++)
+    for (let x = 0; x < c.width; x++) {
+      if (d[(y * c.width + x) * 4 + 3] > 20) {
+        if (y < t) t = y; if (y > b) b = y;
+        if (x < l) l = x; if (x > r) r = x;
+      }
+    }
+  if (b <= t) return c.toDataURL('image/png');
+  const pad = Math.max(10, Math.round(Math.max(r-l, b-t) * 0.05));
+  l = Math.max(0, l - pad); t = Math.max(0, t - pad);
+  r = Math.min(c.width, r + pad); b = Math.min(c.height, b + pad);
+  const w = r - l, h = b - t;
+  const c2 = document.createElement('canvas');
+  c2.width = w; c2.height = h;
+  c2.getContext('2d').drawImage(c, l, t, w, h, 0, 0, w, h);
+  return c2.toDataURL('image/png');
+}
+
+function prepareComposite(croppedDataUrl, bgColor) {
+  return new Promise(resolve => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const size = 1024;
+      const c = document.createElement('canvas');
+      c.width = size; c.height = size;
+      const ctx = c.getContext('2d');
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, size, size);
+      const scale = Math.min((size * 0.7) / img.width, (size * 0.7) / img.height);
+      const w = img.width * scale, h = img.height * scale;
+      ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+      resolve(c.toDataURL('image/png'));
+    };
+    img.src = croppedDataUrl;
+  });
+}
+
+async function generateScene(imageDataUrl, scene) {
+  // Full pipeline - used for single generations
+  const uploadedUrl = await uploadToFal(imageDataUrl);
+  const bgRemovedUrl = await removeBg(uploadedUrl);
+  if (!bgRemovedUrl) throw new Error('BG removal failed');
+  let bgImg;
+  try {
+    bgImg = await loadImage(bgRemovedUrl);
+  } catch(e) {
+    const blobRes = await fetch(bgRemovedUrl);
+    const blob = await blobRes.blob();
+    bgImg = await loadImage(URL.createObjectURL(blob));
+  }
+  const croppedDataUrl = autoCrop(bgImg);
+  return generateSceneFromCropped(croppedDataUrl, scene);
+}
+
+async function generateSceneFromCropped(croppedDataUrl, scene) {
+  // Prepare composite with scene background color
+  const compositeDataUrl = await prepareComposite(croppedDataUrl, scene.bgColor);
+  const compositeUrl = await uploadToFal(compositeDataUrl);
+
+  // Generate with NB Pro
+  const genRes = await fetch('https://fal.run/fal-ai/nano-banana-pro/edit', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Key ' + FAL_KEY,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ image_url: compositeUrl, prompt: scene.prompt })
+  });
+
+  if (!genRes.ok) throw new Error('Generation failed: ' + genRes.status);
+  const genData = await genRes.json();
+  const resultUrl = genData.images?.[0]?.url || genData.image?.url;
+  if (!resultUrl) throw new Error('No result URL in response: ' + JSON.stringify(genData).substring(0, 200));
+  
+  // Convert to data URL to avoid CORS display issues
+  try {
+    const resultImg = await loadImage(resultUrl);
+    const c = document.createElement('canvas');
+    c.width = resultImg.naturalWidth; c.height = resultImg.naturalHeight;
+    c.getContext('2d').drawImage(resultImg, 0, 0);
+    return c.toDataURL('image/jpeg', 0.92);
+  } catch(e) {
+    try {
+      const blobRes = await fetch(resultUrl);
+      const blob = await blobRes.blob();
+      return URL.createObjectURL(blob);
+    } catch(e2) {
+      return resultUrl;
+    }
+  }
+}
+
+function loadImage(url) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+// === BATCH RUNNER ===
+
+async function runAll() {
+  if (isRunning) return;
+  if (!queue.length) return showToast('Add some photos first');
+  if (!selectedScenes.size) return showToast('Select at least one scene');
+
+  isRunning = true;
+  document.getElementById('runAllBtn').disabled = true;
+  document.getElementById('progressBar').style.display = '';
+  document.getElementById('progressText').style.display = '';
+
+  const scenesToRun = SCENES.filter(s => selectedScenes.has(s.id));
+  const totalJobs = queue.length * scenesToRun.length;
+  let completed = 0;
+
+  for (const item of queue) {
+    item.status = 'running';
+    renderQueue();
+
+    // Get the image data URL (fetch if URL)
+    let dataUrl = item.originalDataUrl;
+    if (!dataUrl) {
+      try {
+        const img = await loadImage(item.originalUrl);
+        const c = document.createElement('canvas');
+        c.width = img.naturalWidth; c.height = img.naturalHeight;
+        c.getContext('2d').drawImage(img, 0, 0);
+        dataUrl = c.toDataURL('image/png');
+        item.originalDataUrl = dataUrl;
+      } catch(e) {
+        item.status = 'error';
+        completed += scenesToRun.length;
+        updateProgress(completed, totalJobs);
+        renderQueue();
+        continue;
+      }
+    }
+
+    // Upload once and remove BG once for this photo
+    let croppedDataUrl;
+    try {
+      updateProgress(completed, totalJobs, `Uploading ${item.name}...`);
+      console.log(`[Gemly] Uploading: ${item.name}`);
+      const uploadedUrl = await uploadToFal(dataUrl);
+      
+      updateProgress(completed, totalJobs, `Removing background for ${item.name}...`);
+      console.log(`[Gemly] Removing BG: ${item.name}`);
+      const bgRemovedUrl = await removeBg(uploadedUrl);
+      if (!bgRemovedUrl) throw new Error('BG removal returned no URL');
+
+      // Load and auto-crop
+      let bgImg;
+      try {
+        bgImg = await loadImage(bgRemovedUrl);
+      } catch(e) {
+        const blobRes = await fetch(bgRemovedUrl);
+        const blob = await blobRes.blob();
+        bgImg = await loadImage(URL.createObjectURL(blob));
+      }
+      croppedDataUrl = autoCrop(bgImg);
+      console.log(`[Gemly] BG removed & cropped: ${item.name}`);
+    } catch(e) {
+      console.error(`[Gemly] Upload/BG removal failed for ${item.name}:`, e);
+      item.status = 'error';
+      completed += scenesToRun.length;
+      updateProgress(completed, totalJobs);
+      renderQueue();
+      continue;
+    }
+
+    // Now generate each scene using the already-cropped image
+    for (const scene of scenesToRun) {
+      try {
+        updateProgress(completed, totalJobs, `Generating ${item.name} → ${scene.name}...`);
+        console.log(`[Gemly] Starting: ${item.name} → ${scene.name}`);
+        const resultUrl = await generateSceneFromCropped(croppedDataUrl, scene);
+        console.log(`[Gemly] Success: ${item.name} → ${scene.name}`);
+        item.results[scene.id] = resultUrl;
+      } catch(e) {
+        console.error(`[Gemly] Failed: ${item.name} / ${scene.name}`, e);
+        item.results[scene.id] = null;
+      }
+      completed++;
+      updateProgress(completed, totalJobs);
+      renderQueue();
+    }
+
+    item.status = Object.values(item.results).some(v => v === null) ? 'error' : 'done';
+    renderQueue();
+  }
+
+  isRunning = false;
+  document.getElementById('runAllBtn').disabled = false;
+  updateProgress(totalJobs, totalJobs, 'Batch complete!');
+  showToast(`Done! ${completed} images generated.`);
+}
+
+function updateProgress(current, total, msg) {
+  const pct = Math.round((current / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = msg || `${current} / ${total} (${pct}%)`;
+}
+
+function downloadResult(url, filename) {
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename + '.png';
+  a.target = '_blank';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// URL input enter key
+document.getElementById('urlInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addFromUrl();
+});
+</script>
+</body>
+</html>
