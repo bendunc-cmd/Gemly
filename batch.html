@@ -301,6 +301,8 @@ function setJewelryType(val) {
 
 const UPRIGHT_PREFIX = 'First, reposition the jewelry so it is standing upright on its edge — the ring should be vertical, balanced on the surface like a display stand would hold it, seen from a slight angle. Then apply this scene: ';
 const HOOP_SUFFIX = ' UNIVERSAL RULE: If the jewelry has any open or hollow areas — such as the centre of a hoop earring, the inside of a ring, or any gap in the design — those areas must remain completely transparent and open, showing only the background surface through them. Never fill any hollow centre or open area with shadow, darkness, or any solid material.';
+
+function initSceneSelector() {
   const el = document.getElementById('sceneSelector');
   SCENES.forEach(s => {
     const chip = document.createElement('button');
