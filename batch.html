@@ -189,7 +189,7 @@ Silver must glow with bright cool brilliance against the black. The light-to-dar
     swatch: 'linear-gradient(135deg,#d8ceb8,#b4a888)', bgColor: '#d8d0bb',
     prompt: `This is a commercial macro product photography background replacement. The jewelry piece is locked — its exact shape, size, surface finish, and cool silver metal color must be preserved with absolute precision. Do not alter the jewelry in any way. Replace only the background.
 
-New scene: Overhead flat-lay. The ring rests on a natural undyed linen textile surface — the weave is fine and tightly woven like quality Belgian linen canvas (NOT coarse hessian or burlap). The fabric threads are clearly but subtly visible, creating a refined organic texture. Beside the ring: one small sprig of dried eucalyptus with silvery-grey leaves, and two or three dried seed pods in muted earth tones. Props are arranged with generous space around the ring — the ring remains the clear focal point.
+New scene: Overhead flat-lay. The jewellery rests on a natural undyed linen textile surface — the weave is fine and tightly woven like quality Belgian linen canvas (NOT coarse hessian or burlap). The fabric threads are clearly but subtly visible, creating a refined organic texture. Arranged generously around the jewellery: one large eucalyptus branch with several full-sized leaves taking up a significant portion of the frame, and two or three large dried seed pods or gumnuts — these props must be LARGE and PROMINENT, at least as large as the jewellery itself, filling the composition naturally. The jewellery is the hero but the props give the image its character. Props are styled with intention — not scattered randomly, but deliberately placed like a professional flat-lay stylist arranged them.
 
 Lighting setup: Large overhead softbox providing even, soft illumination across the entire flat-lay, colour temperature 5500K. A secondary silver reflector slightly off-axis creates gentle directional light raking across the linen surface, making the weave texture visible without creating harsh shadows. The ring receives a subtle narrow strip light from above creating one clean specular highlight along the band.
 
@@ -476,6 +476,34 @@ function autoCrop(img) {
   return c2.toDataURL('image/png');
 }
 
+function defringeImage(img, bgColor) {
+  // Parse bgColor hex to RGB
+  const hex = bgColor.replace('#','');
+  const br = parseInt(hex.slice(0,2),16), bg2 = parseInt(hex.slice(2,4),16), bb = parseInt(hex.slice(4,6),16);
+
+  const c = document.createElement('canvas');
+  c.width = img.width || img.naturalWidth;
+  c.height = img.height || img.naturalHeight;
+  const ctx = c.getContext('2d');
+  ctx.drawImage(img, 0, 0);
+  const d = ctx.getImageData(0, 0, c.width, c.height);
+  const px = d.data;
+
+  // For every semi-transparent pixel, blend its colour toward bgColor
+  // This removes the dark fringe BiRefNet leaves at cutout edges
+  for (let i = 0; i < px.length; i += 4) {
+    const a = px[i+3];
+    if (a > 0 && a < 240) {
+      const t = a / 255;
+      px[i]   = Math.round(px[i]   * t + br * (1 - t));
+      px[i+1] = Math.round(px[i+1] * t + bg2 * (1 - t));
+      px[i+2] = Math.round(px[i+2] * t + bb * (1 - t));
+    }
+  }
+  ctx.putImageData(d, 0, 0);
+  return c;
+}
+
 function prepareComposite(croppedDataUrl, bgColor) {
   return new Promise(resolve => {
     const img = new Image();
@@ -489,7 +517,9 @@ function prepareComposite(croppedDataUrl, bgColor) {
       ctx.fillRect(0, 0, size, size);
       const scale = Math.min((size * 0.85) / img.width, (size * 0.85) / img.height);
       const w = img.width * scale, h = img.height * scale;
-      ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
+      // Defringe before compositing to remove dark cutout edges
+      const defringed = defringeImage(img, bgColor);
+      ctx.drawImage(defringed, (size - w) / 2, (size - h) / 2, w, h);
       resolve(c.toDataURL('image/png'));
     };
     img.src = croppedDataUrl;
