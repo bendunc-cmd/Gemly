@@ -116,6 +116,17 @@ a{color:var(--gold);text-decoration:none}
   </div>
 
   <div style="margin-bottom:20px;padding:14px 18px;background:var(--s2);border:1px solid var(--b1);border-radius:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+    <span style="font-size:12px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em">Jewellery Type</span>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button id="type_ring" class="scene-chip type-chip active" onclick="setJewelryType('ring')">💍 Ring</button>
+      <button id="type_earrings" class="scene-chip type-chip" onclick="setJewelryType('earrings')">✦ Earrings</button>
+      <button id="type_necklace" class="scene-chip type-chip" onclick="setJewelryType('necklace')">📿 Necklace</button>
+      <button id="type_bracelet" class="scene-chip type-chip" onclick="setJewelryType('bracelet')">⬡ Bracelet</button>
+    </div>
+    <span style="font-size:11px;color:var(--t3)">Affects On-Hand placement and scene positioning</span>
+  </div>
+
+  <div style="margin-bottom:20px;padding:14px 18px;background:var(--s2);border:1px solid var(--b1);border-radius:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <span style="font-size:12px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em">Item Orientation</span>
     <div style="display:flex;gap:8px">
       <button id="orientFlat" class="scene-chip active" onclick="setOrientation('flat')">⬛ Flat / Natural</button>
@@ -147,16 +158,18 @@ Lighting setup: Two large diffused softboxes at 45 degrees from either side, col
 
 Camera: 100mm macro lens. Aperture f/2.8. Shallow depth of field — ring in tack-sharp focus, background silk folds dissolving into creamy bokeh. Tight crop, ring fills 60% of frame.
 
-The ring's silver metal must retain its characteristic cool bright tone — no warm cast, no colour shift. Crisp controlled specular highlights on the metal surface. Physically accurate reflections. No plastic texture. No floating. No text.`
+The ring's silver metal must retain its characteristic cool bright tone — no warm cast, no colour shift. Crisp controlled specular highlights on the metal surface. Physically accurate reflections. No plastic texture. No floating. No dark edges. No foreign objects. No text.`
   },
   {
     id: 'marble', name: 'Marble & Gold',
     swatch: 'linear-gradient(135deg,#eae4dc,#d0c4b4)', bgColor: '#f0ebe4',
     prompt: `This is a commercial macro product photography background replacement. The jewelry piece is locked — its exact shape, size, surface finish, and cool silver metal color must be preserved with absolute precision. Do not alter the jewelry in any way. Replace only the background.
 
-New scene: The ring sits directly on a continuous polished Calacatta marble surface — smooth, cool-white stone with fine charcoal-grey veining and occasional warm gold mineral streaks. The marble fills the ENTIRE frame completely from edge to edge in all directions — no table edges, no desk corners, no walls, no dark areas, no black zones, no shadows from external objects, no surface boundaries of any kind visible anywhere in the frame. Pure uninterrupted marble stretching to all four edges of the image.
+New scene: The jewellery piece sits directly on a continuous polished Calacatta marble surface — smooth, cool-white stone with fine charcoal-grey veining and occasional warm gold mineral streaks. The marble fills the ENTIRE frame completely from edge to edge in all directions — no table edges, no desk corners, no walls, no dark areas, no black zones, no shadows from external objects, no surface boundaries of any kind visible anywhere in the frame. Pure uninterrupted marble stretching to all four edges of the image.
 
-The ring casts only a small, soft contact shadow directly beneath itself on the marble. A thin black card negative fill placed on the left side of the ring creates a dark tonal gradient on that side of the band only, defining the metal's curvature — this dark accent exists only within the ring's reflection, not in the background.
+CRITICAL — if the jewellery is a hoop or has any open/hollow areas: the open centre of any hoop or ring must remain fully transparent and open — you must be able to see the marble surface through the centre of the hoop. Do not fill the inside of a hoop with shadow, darkness, or any surface. The hollow centre shows only the marble beneath it.
+
+The jewellery casts only a small, soft contact shadow directly beneath itself on the marble. A thin black card negative fill placed on the left side of the piece creates a dark tonal gradient on that side of the band only, defining the metal's curvature — this dark accent exists only within the metal's own reflection, not in the background.
 
 Lighting setup: Large softbox overhead and slightly left, colour temperature 5500K (neutral daylight). Light rakes gently across the marble surface, revealing the stone's natural texture and veining. A secondary silver reflector on the right bounces clean fill back into the shadow side of the ring, preventing it from disappearing into the white marble.
 
@@ -188,20 +201,31 @@ Lighting setup: Large overhead softbox providing even, soft illumination across 
 
 Camera: 50mm lens. Shot from directly overhead (90 degrees top-down). f/8 for full sharpness across the flat lay surface. Ring positioned using rule of thirds.
 
-Silver must retain its cool metallic quality — not warm, not grey. Controlled specular highlight on band. No text. No floating.`
+Silver must retain its cool metallic quality — not warm, not grey. Controlled specular highlight on band. No dark edges. No foreign objects. No text. No floating.`
   },
   {
     id: 'onhand', name: 'On-Hand',
     swatch: 'linear-gradient(135deg,#e8d0b8,#c4a88c)', bgColor: '#e8dcc8',
-    prompt: `This is a commercial lifestyle jewelry photography composite. The jewelry piece shown must be placed naturally on a hand, worn in the correct position for that type of jewelry. Preserve the jewelry's exact shape, size, metal color, and all surface detail precisely — do not alter it.
+    getPrompt: (type) => {
+      const placements = {
+        ring: `Place the ring on a woman's ring finger — on the index or middle finger, centred in frame. The ring sits naturally at the base of the finger. The hand is relaxed, slightly angled at 30 degrees, fingers loosely together. Blurred neutral background behind the hand.`,
+        earrings: `Place the earrings on a woman's ear — shown as a close-up side profile of the ear and jaw. The earring is clipped or threaded naturally through the earlobe. The second earring may be softly visible in background bokeh. Hair is swept back or tucked behind the ear to fully reveal the jewellery. Background is a soft blurred neutral.`,
+        necklace: `Drape the necklace naturally around a woman's neck — shown as a close-up of the collarbone and décolletage area. The pendant or chain sits naturally against the skin. The neckline of any clothing is minimal or a simple neutral top. Background is soft and blurred.`,
+        bracelet: `Clasp or drape the bracelet around a woman's wrist — shown as a close-up of the wrist and lower forearm. The wrist is slightly turned to display the bracelet face-on. Fingers are relaxed and loosely extended. Background is soft and blurred.`
+      };
+      return `This is a commercial lifestyle jewelry photography composite. The jewelry piece shown must be worn naturally in the correct position for its type. Preserve the jewelry's exact shape, size, metal color, and all surface detail precisely — do not alter it.
 
-The hand: a woman's hand with a naturally slender profile, natural warm skin tone (not orange, not grey), lightly moisturised-looking skin. Nails are short, clean, and either bare or with a barely-there nude polish. No nail art. No rings on other fingers. The finger wearing the ring is centred in the frame with the ring oriented correctly on the finger.
+${placements[type] || placements.ring}
 
-Lighting setup: Large softbox at 45 degrees from upper left, producing one key light that creates natural skin modelling. A silver reflector on the right provides soft fill. Colour temperature 4500K — natural indoor-daylight warmth that flatters skin without pushing the silver toward yellow. The ring receives a separate narrow strip of cool light (5500K) ensuring the silver metal remains cooler in tone than the surrounding warm skin, maintaining the correct visual distinction between metal and skin.
+The hand/model: natural warm skin tone (not orange, not grey), lightly moisturised-looking skin. Nails are short, clean, and either bare or with a barely-there nude polish. No nail art. No other jewellery visible.
 
-Camera: 85mm macro lens. f/2.8. Extremely shallow depth of field — ring and immediate surrounding finger in sharp focus, background a creamy blurred neutral. Ring fills at least 40% of the frame. Natural-looking pose, not forced or stiff.
+Lighting setup: Large softbox at 45 degrees from upper left, producing natural skin modelling. A silver reflector on the right provides soft fill. Colour temperature 4500K — natural indoor-daylight warmth that flatters skin. The jewellery receives a separate narrow strip of cool light (5500K) ensuring the silver metal remains cooler in tone than the surrounding warm skin, maintaining the correct visual distinction between metal and skin.
 
-The ring's silver must read as distinctly cooler and more metallic than the warm skin tones. Controlled speculars on band. Photorealistic skin texture. No text.`
+Camera: 85mm macro lens. f/2.8. Extremely shallow depth of field — jewellery and immediate surrounding skin in sharp focus, background a creamy blurred neutral. Jewellery fills at least 40% of the frame. Natural-looking pose, not forced or stiff.
+
+The silver must read as distinctly cooler and more metallic than the warm skin tones. Controlled speculars on metal. Photorealistic skin texture. No text. No dark edges. No foreign objects.`;
+    },
+    prompt: '' // populated dynamically via getPrompt()
   },
   {
     id: 'warmsuede', name: 'Warm Suede',
@@ -214,7 +238,7 @@ Lighting setup: This scene uses a deliberate warm-cool split to make silver pop 
 
 Camera: 100mm macro lens. f/4. Shallow depth of field — ring in sharp focus, suede surface blurring softly in the foreground and background. Ring fills 65% of frame. Close, intimate crop.
 
-The silver ring must appear distinctly cool and metallic against the warm suede — the cool-warm contrast is the entire point of this scene. Crisp specular highlights on the band. No plastic look. No text.`
+The silver ring must appear distinctly cool and metallic against the warm suede — the cool-warm contrast is the entire point of this scene. Crisp specular highlights on the band. No plastic look. No dark edges. No foreign objects. No text.`
   },
   {
     id: 'candleglow', name: 'Candle Glow',
@@ -227,20 +251,20 @@ Critical lighting architecture — TWO separated light sources: (1) A cool-toned
 
 Camera: 85mm lens. f/1.4. Very shallow depth of field. Ring in sharp focus. Background candle bokeh circles are large and glowing. Ring fills 60% of frame.
 
-The silver must remain visibly cooler in tone than the warm wooden surface and amber bokeh. This cool-vs-warm temperature contrast is the visual signature of this scene. No text.`
+The silver must remain visibly cooler in tone than the warm wooden surface and amber bokeh. This cool-vs-warm temperature contrast is the visual signature of this scene. No dark edges. No foreign objects. No text.`
   },
   {
     id: 'rosepetal', name: 'Rose & Cream',
     swatch: 'linear-gradient(135deg,#e8c8c0,#f0e0d8)', bgColor: '#f0e0d8',
     prompt: `This is a commercial macro product photography background replacement. The jewelry piece is locked — its exact shape, size, surface finish, and cool silver metal color must be preserved with absolute precision. Do not alter the jewelry in any way. Replace only the background.
 
-New scene: The ring rests on a smooth cream-white silk fabric surface — the silk has a subtle satin sheen, pulled flat directly beneath the ring. Scattered around (not touching the ring): four to six dried rose petals in soft dusty blush-pink and pale champagne tones. The petals have a natural papery texture — not fresh, not plastic. They are slightly out of focus, scattered organically.
+New scene: The jewellery piece rests on a smooth cream-white silk fabric surface — the silk has a subtle satin sheen, pulled flat directly beneath it. Scattered around (not touching the jewellery): four to six dried rose petals in soft dusty blush-pink and pale champagne tones. The petals have a natural papery texture — not fresh, not plastic. They are slightly out of focus, scattered organically. The silk fills the entire frame — no dark stripes, no card edges, no book spines, no foreign objects, no dark borders of any kind. Only cream silk and soft petals.
 
-Lighting setup: A large softbox positioned above and to the left at 5500K — neutral daylight-balanced light that preserves the silver ring's cool metallic character. A secondary silver fill card on the right. A narrow strip light overhead creates one elegant specular highlight along the top edge of the silver band. Black card negative fill beneath provides the defining dark gradient across the band's lower face, preventing silver from disappearing into the near-white silk surface.
+Lighting setup: A large softbox positioned above and to the left at 5500K — neutral daylight-balanced light that preserves the silver metal's cool metallic character. A secondary silver fill card on the right. A narrow strip light overhead creates one elegant specular highlight along the top edge of the metal. Black card negative fill beneath provides the defining dark gradient across the band's lower face, preventing silver from disappearing into the near-white silk surface.
 
-Camera: 90mm macro lens. f/2.8. Shallow depth of field — ring in tack-sharp focus, petals softening slightly, background silk dissolving to creamy blur. Ring fills 55% of frame. Composition: ring positioned slightly left of centre, petals scattered toward the right.
+Camera: 90mm macro lens. f/2.8. Shallow depth of field — jewellery in tack-sharp focus, petals softening slightly, background silk dissolving to creamy blur. Jewellery fills 55% of frame. Composition: jewellery positioned slightly left of centre, petals scattered toward the right.
 
-Silver must remain cool and crisp against the warm-tinted cream silk — the contrast between cool silver and warm ivory is essential. Controlled bright specular on band. No text. No floating.`
+Silver must remain cool and crisp against the warm-tinted cream silk. Controlled bright specular on metal. No dark edges. No black stripes. No foreign objects. No text. No floating.`
   },
   {
     id: 'concrete', name: 'Raw Concrete',
@@ -261,6 +285,7 @@ let queue = [];
 let selectedScenes = new Set(['velvet','marble','dark','botanical','onhand','warmsuede','candleglow','rosepetal','concrete']);
 let isRunning = false;
 let itemOrientation = 'flat'; // 'flat' or 'upright'
+let jewelryType = 'ring'; // 'ring', 'earrings', 'necklace', 'bracelet'
 
 function setOrientation(val) {
   itemOrientation = val;
@@ -268,10 +293,14 @@ function setOrientation(val) {
   document.getElementById('orientUpright').classList.toggle('active', val === 'upright');
 }
 
+function setJewelryType(val) {
+  jewelryType = val;
+  document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
+  document.getElementById('type_' + val).classList.add('active');
+}
+
 const UPRIGHT_PREFIX = 'First, reposition the jewelry so it is standing upright on its edge — the ring should be vertical, balanced on the surface like a display stand would hold it, seen from a slight angle. Then apply this scene: ';
-
-
-function initSceneSelector() {
+const HOOP_SUFFIX = ' UNIVERSAL RULE: If the jewelry has any open or hollow areas — such as the centre of a hoop earring, the inside of a ring, or any gap in the design — those areas must remain completely transparent and open, showing only the background surface through them. Never fill any hollow centre or open area with shadow, darkness, or any solid material.';
   const el = document.getElementById('sceneSelector');
   SCENES.forEach(s => {
     const chip = document.createElement('button');
@@ -477,6 +506,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
   
   // Pass data URL directly to NB Pro — same approach as main app
 
+  const scenePrompt = scene.getPrompt ? scene.getPrompt(jewelryType) : scene.prompt;
   const genRes = await fetch('https://fal.run/fal-ai/nano-banana-pro/edit', {
     method: 'POST',
     headers: {
@@ -485,7 +515,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
     },
     body: JSON.stringify({
       image_urls: [compositeDataUrl],
-      prompt: (itemOrientation === 'upright' && scene.id !== 'onhand') ? UPRIGHT_PREFIX + scene.prompt : scene.prompt,
+      prompt: ((itemOrientation === 'upright' && scene.id !== 'onhand') ? UPRIGHT_PREFIX + scenePrompt : scenePrompt) + HOOP_SUFFIX,
       aspect_ratio: '1:1',
       output_format: 'jpeg',
       num_images: 1,
