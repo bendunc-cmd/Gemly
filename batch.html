@@ -163,19 +163,15 @@ The ring's silver metal must retain its characteristic cool bright tone — no w
   {
     id: 'marble', name: 'Marble & Gold',
     swatch: 'linear-gradient(135deg,#eae4dc,#d0c4b4)', bgColor: '#f0ebe4',
-    prompt: `This is a commercial macro product photography background replacement. The jewelry piece is locked — its exact shape, size, surface finish, and cool silver metal color must be preserved with absolute precision. Do not alter the jewelry in any way. Replace only the background.
+    prompt: `BACKGROUND REPLACEMENT ONLY. The jewellery in this image is the hero — it must not change in any way. Every bead, link, detail, shape, and surface finish is sacred. Reproduce the jewellery with forensic accuracy. Do not simplify, smooth, reinterpret, or redesign any part of it. The only task is to place it in a new background environment.
 
-New scene: The jewellery piece sits directly on a continuous polished Calacatta marble surface — smooth, cool-white stone with fine charcoal-grey veining and occasional warm gold mineral streaks. The marble fills the ENTIRE frame completely from edge to edge in all directions — no table edges, no desk corners, no walls, no dark areas, no black zones, no shadows from external objects, no surface boundaries of any kind visible anywhere in the frame. Pure uninterrupted marble stretching to all four edges of the image.
+New environment: The jewellery rests on a flawless polished Calacatta Gold marble surface. The marble is predominantly bright white with elegant thin grey veining and occasional fine gold mineral veins catching the light. The surface has a high-gloss polish — it is mirror-smooth, and the jewellery produces a subtle soft reflection directly beneath it in the marble surface. The marble fills the entire image frame completely — all four edges of the image are marble. No walls. No surface edges. No table corners. No props. No other objects. Just marble and the jewellery.
 
-CRITICAL — if the jewellery is a hoop or has any open/hollow areas: the open centre of any hoop or ring must remain fully transparent and open — you must be able to see the marble surface through the centre of the hoop. Do not fill the inside of a hoop with shadow, darkness, or any surface. The hollow centre shows only the marble beneath it.
+The jewellery is the undisputed focal point. It is positioned slightly left of centre with generous negative space to the right — this is a luxury editorial composition. The jewellery is large in the frame, rendered with absolute clarity and sharpness.
 
-The jewellery casts only a small, soft contact shadow directly beneath itself on the marble. A thin black card negative fill placed on the left side of the piece creates a dark tonal gradient on that side of the band only, defining the metal's curvature — this dark accent exists only within the metal's own reflection, not in the background.
+Lighting: A single large overhead octabox at 5500K positioned above and slightly forward of the jewellery. This creates a clean pool of soft light centred on the jewellery, falling away gently into slightly cooler shadow at the frame edges. A secondary silver reflector bounces fill light back from the right, ensuring no detail is lost in shadow. The jewellery receives a crisp narrow specular highlight — one clean bright streak running along the top of the metal. The marble surface catches the same light and shows its veining with quiet elegance.
 
-Lighting setup: Large softbox overhead and slightly left, colour temperature 5500K (neutral daylight). Light rakes gently across the marble surface, revealing the stone's natural texture and veining. A secondary silver reflector on the right bounces clean fill back into the shadow side of the ring, preventing it from disappearing into the white marble.
-
-Camera: 100mm macro lens. f/11 for complete front-to-back sharpness. Ring fills 55% of frame. The remaining frame is all marble — bright, clean, and unobstructed.
-
-Silver metal must read as cool, bright, and crisp — not warm, not grey, not plastic. Controlled specular highlights. Physically accurate stone reflections. No dark walls. No black edges. No shadows except directly beneath the ring. No text.`
+The effect is a Cartier campaign still life: pure luxury, zero clutter, the jewellery luminous against cool white stone. Tack-sharp focus on the jewellery. 100mm macro lens, f/8. No dark edges. No black zones. No foreign objects. No text.`
   },
   {
     id: 'dark', name: 'Dark Luxury',
@@ -300,7 +296,7 @@ function setJewelryType(val) {
 }
 
 const UPRIGHT_PREFIX = 'First, reposition the jewelry so it is standing upright on its edge — the ring should be vertical, balanced on the surface like a display stand would hold it, seen from a slight angle. Then apply this scene: ';
-const HOOP_SUFFIX = ' UNIVERSAL RULE: If the jewelry has any open or hollow areas — such as the centre of a hoop earring, the inside of a ring, or any gap in the design — those areas must remain completely transparent and open, showing only the background surface through them. Never fill any hollow centre or open area with shadow, darkness, or any solid material.';
+const HOOP_SUFFIX = ' ABSOLUTE RULES — APPLY TO EVERY SCENE: (1) JEWELLERY PRESERVATION: The jewellery piece is locked. Every single detail — every bead, link, texture, surface finish, shape, and metal colour — must be reproduced with forensic accuracy. Do not simplify, smooth, redesign, reinterpret, or alter the jewellery in any way whatsoever. The jewellery must look identical to the input image. (2) OPEN AREAS: If the jewellery has any hollow or open areas such as the centre of a hoop, those areas must remain fully transparent, showing only the background surface through them. Never fill hollow centres with shadow or solid material.';
 
 function initSceneSelector() {
   const el = document.getElementById('sceneSelector');
