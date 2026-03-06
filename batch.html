@@ -189,7 +189,7 @@ Silver must glow with bright cool brilliance against the black. The light-to-dar
     swatch: 'linear-gradient(135deg,#d8ceb8,#b4a888)', bgColor: '#d8d0bb',
     prompt: `This is a commercial macro product photography background replacement. The jewelry piece is locked — its exact shape, size, surface finish, and cool silver metal color must be preserved with absolute precision. Do not alter the jewelry in any way. Replace only the background.
 
-New scene: Overhead flat-lay. The jewellery rests on a natural undyed linen textile surface — the weave is fine and tightly woven like quality Belgian linen canvas (NOT coarse hessian or burlap). The fabric threads are clearly but subtly visible, creating a refined organic texture. Arranged generously around the jewellery: one large eucalyptus branch with several full-sized leaves taking up a significant portion of the frame, and two or three large dried seed pods or gumnuts — these props must be LARGE and PROMINENT, at least as large as the jewellery itself, filling the composition naturally. The jewellery is the hero but the props give the image its character. Props are styled with intention — not scattered randomly, but deliberately placed like a professional flat-lay stylist arranged them.
+New scene: Overhead flat-lay. The jewellery rests at the centre of a natural undyed linen textile surface — the weave is fine and tightly woven like quality Belgian linen canvas (NOT coarse hessian or burlap). The fabric threads are clearly but subtly visible, creating a refined organic texture. Just two minimal props: one small eucalyptus sprig with a few leaves placed to one side, and a single dried gumnut placed nearby. Nothing else. The jewellery is the largest and most dominant element in the frame — the props are understated accents, not competing with it.
 
 Lighting setup: Large overhead softbox providing even, soft illumination across the entire flat-lay, colour temperature 5500K. A secondary silver reflector slightly off-axis creates gentle directional light raking across the linen surface, making the weave texture visible without creating harsh shadows. The ring receives a subtle narrow strip light from above creating one clean specular highlight along the band.
 
@@ -199,7 +199,7 @@ Silver must retain its cool metallic quality — not warm, not grey. Controlled 
   },
   {
     id: 'onhand', name: 'On-Hand',
-    swatch: 'linear-gradient(135deg,#e8d0b8,#c4a88c)', bgColor: '#e8dcc8',
+    swatch: 'linear-gradient(135deg,#e8d0b8,#c4a88c)', bgColor: '#d4a882',
     getPrompt: (type) => {
       const placements = {
         ring: `Place the ring on a woman's ring finger — on the index or middle finger, centred in frame. The ring sits naturally at the base of the finger. The hand is relaxed, slightly angled at 30 degrees, fingers loosely together. Blurred neutral background behind the hand.`,
@@ -217,22 +217,22 @@ Lighting setup: Large softbox at 45 degrees from upper left, producing natural s
 
 Camera: 85mm macro lens. f/2.8. Extremely shallow depth of field — jewellery and immediate surrounding skin in sharp focus, background a creamy blurred neutral. Jewellery fills at least 40% of the frame. Natural-looking pose, not forced or stiff.
 
-The silver must read as distinctly cooler and more metallic than the warm skin tones. Controlled speculars on metal. Photorealistic skin texture. No text. No dark edges. No foreign objects.`;
+The silver must read as distinctly cooler and more metallic than the warm skin tones. Controlled speculars on metal. Photorealistic skin texture. No dark walls. No black edges. No foreign objects intruding from any corner. No text. No dark edges. No foreign objects.`;
     },
     prompt: '' // populated dynamically via getPrompt()
   },
   {
     id: 'warmsuede', name: 'Warm Suede',
-    swatch: 'linear-gradient(135deg,#8B6914,#c4943c)', bgColor: '#6b4a10',
+    swatch: 'linear-gradient(135deg,#8B6914,#c4943c)', bgColor: '#b07830',
     prompt: `This is a commercial macro product photography background replacement. The jewelry piece is locked — its exact shape, size, surface finish, and cool silver metal color must be preserved with absolute precision. Do not alter the jewelry in any way. Replace only the background.
 
-New scene: The ring rests on a warm caramel-brown suede surface. The suede has a fine, short nap visible up close — individual fibres catching light at their tips, with a soft directional pile. The suede extends in all directions, gradually darkening toward the edges with a gentle natural vignette.
+New scene: The jewellery rests on a warm caramel-brown suede surface. The suede has a fine, short nap visible up close — individual fibres catching light at their tips, with a soft directional pile. The suede fills the entire frame completely to all four edges — no walls, no dark corners, no black edges, no foreign objects, nothing except suede. The suede surface extends uninterrupted in all directions.
 
-Lighting setup: This scene uses a deliberate warm-cool split to make silver pop against the warm background. Key light: a cool-toned LED panel at 6000K aimed directly at the ring from above-left — this keeps the silver's cool metallic character intact. Secondary light: a warm tungsten-gelled light at 3200K aimed at the background suede surface only, making the suede glow with deep caramel warmth. The contrast between the cool silver ring and warm glowing suede creates premium visual tension. Black card negative fill on the right side of the ring creates a dark tonal gradient along the band's right edge, maintaining metal definition against the warm surface.
+Lighting setup: This scene uses a deliberate warm-cool split to make silver pop against the warm background. Key light: a cool-toned LED panel at 6000K aimed directly at the jewellery from above-left — this keeps the silver's cool metallic character intact. Secondary light: a warm tungsten-gelled light at 3200K aimed at the background suede surface only, making the suede glow with deep caramel warmth. The contrast between the cool silver jewellery and warm glowing suede creates premium visual tension. Black card negative fill on the right side creates a dark tonal gradient along the band's right edge, maintaining metal definition against the warm surface.
 
-Camera: 100mm macro lens. f/4. Shallow depth of field — ring in sharp focus, suede surface blurring softly in the foreground and background. Ring fills 65% of frame. Close, intimate crop.
+Camera: 100mm macro lens. f/4. Shallow depth of field — jewellery in sharp focus, suede surface blurring softly. Jewellery fills 65% of frame. Close, intimate crop.
 
-The silver ring must appear distinctly cool and metallic against the warm suede — the cool-warm contrast is the entire point of this scene. Crisp specular highlights on the band. No plastic look. No dark edges. No foreign objects. No text.`
+The silver must appear distinctly cool and metallic against the warm suede. Crisp specular highlights. No dark walls. No black edges. No foreign objects anywhere in the frame. No text.`
   },
   {
     id: 'candleglow', name: 'Candle Glow',
@@ -269,7 +269,7 @@ New scene: The ring sits directly on smooth architectural concrete — the kind 
 
 Lighting setup: A single large softbox positioned at 30 degrees from the left creates strong directional light that rakes across the concrete surface, making the fine texture and micro-variations clearly visible. This same light catches the silver ring and creates one dominant specular highlight along the upper-left edge of the band. On the right: a black V-flat card placed close to the ring creates a deep dark reflection along the band's right edge — the signature dark-to-light gradient that gives silver its three-dimensional form against a grey surface. Behind the ring: gradual falloff to slightly darker grey, creating depth.
 
-Camera: 100mm macro lens. f/5.6. Moderate depth of field — ring and immediate concrete surface in sharp focus, concrete blurring subtly in the near foreground. Ring fills 60% of frame. Cool, desaturated colour grade.
+Camera: 100mm macro lens. f/5.6. Moderate depth of field — jewellery and immediate concrete surface in sharp focus, concrete blurring subtly in the near foreground. The jewellery must be FULLY VISIBLE within the frame with clear space on all sides — do not crop any part of the jewellery. Jewellery fills 55% of frame maximum, centred. Cool, desaturated colour grade.
 
 Silver must appear bright, cool, and crisp against the grey concrete. The ring should appear visibly brighter and more reflective than the matte concrete. Controlled specular highlights. No warm tones. No dark edges. No black zones. No foreign objects. No text.`
   }
