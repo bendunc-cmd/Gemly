@@ -1260,8 +1260,9 @@ async function generate() {
       operating_resolution: '1024x1024',
       output_format: 'png',
     });
-    if (!bgData?.image?.url) throw new Error('Background removal failed');
-    const noBgUrl = bgData.image.url;
+    console.log('BiRefNet response:', JSON.stringify(bgData));
+    if (!bgData?.image?.url && !bgData?.images?.[0]?.url) throw new Error('Background removal failed');
+    const noBgUrl = bgData.image?.url || bgData.images?.[0]?.url;
     statusEl.innerHTML = '<div class="tool-status-msg"><span class="spinner" style="width:12px;height:12px;margin-right:6px;vertical-align:middle"></span> Preparing image...</div>';
     const noBgImg = await loadImage(noBgUrl);
     const cropped = autoCrop(noBgImg);
