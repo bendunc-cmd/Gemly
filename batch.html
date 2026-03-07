@@ -144,7 +144,6 @@ a{color:var(--gold);text-decoration:none}
 <div class="toast" id="toast"></div>
 
 <script>
-const FAL_KEY = 'c21e9cd3-3a7a-4c35-b6fa-d7082981e22f:e0a7e4cfc1c98ad6510ee22b7ca18ff7';
 
 const SCENES = [
   {
@@ -429,25 +428,20 @@ async function uploadToFal(dataUrl) {
 }
 
 async function removeBg(imageUrl) {
-  const res = await fetch('https://fal.run/fal-ai/birefnet/v2', {
+  const data = await fetch('/api/fal', {
     method: 'POST',
-    headers: {
-      'Authorization': 'Key ' + FAL_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'birefnet', payload: {
       image_url: imageUrl,
       model: 'General Use (Heavy)',
       operating_resolution: '1024x1024',
       output_format: 'png'
-    })
-  });
-  if (!res.ok) {
-    const errText = await res.text().catch(() => '');
-    throw new Error('BiRefNet failed: ' + res.status + ' ' + errText.substring(0, 200));
+    }})
+  }).then(r => r.json());
+  if (!data?.image?.url) {
+    throw new Error('BiRefNet failed');
   }
-  const data = await res.json();
-  return data.image?.url;
+  return data.image.url;
 }
 
 function autoCrop(img) {
@@ -533,21 +527,18 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
   // Pass data URL directly to NB Pro — same approach as main app
 
   const scenePrompt = scene.getPrompt ? scene.getPrompt(jewelryType) : scene.prompt;
-  const genRes = await fetch('https://fal.run/fal-ai/nano-banana-2/edit', {
+  const genData = await fetch('/api/fal', {
     method: 'POST',
-    headers: {
-      'Authorization': 'Key ' + FAL_KEY,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'generate', payload: {
       image_urls: [compositeDataUrl],
       prompt: ((itemOrientation === 'upright' && scene.id !== 'onhand') ? UPRIGHT_PREFIX + scenePrompt : scenePrompt) + HOOP_SUFFIX,
       aspect_ratio: '1:1',
       output_format: 'jpeg',
       num_images: 1,
       safety_tolerance: '6'
-    })
-  });
+    }})
+  }).then(r => r.json());
 
   if (!genRes.ok) {
     const errText = await genRes.text().catch(() => '');
