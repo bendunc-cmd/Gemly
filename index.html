@@ -525,14 +525,9 @@ h1,h2{font-family:'Cormorant Garamond',serif}
 .tool-status-error{font-size:12px;color:#e05050}
 
 /* Pipeline */
-.pipeline-row{
-  display:flex;gap:8px;align-items:center;
-  justify-content:center;margin:16px 0;flex-wrap:wrap;
-}
-.pipeline-step{text-align:center}
-.pipeline-step img{height:72px;border-radius:3px;border:1px solid var(--line)}
-.pipeline-step-label{font-size:9px;color:var(--t3);margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
-.pipeline-arrow{color:var(--t3);font-size:14px}
+/* Pipeline — hidden, branded spinner shown instead */
+.pipeline-row{ display:none }
+.pipeline-step,.pipeline-arrow{ display:none }
 
 /* Results */
 .tool-results{display:none}
@@ -906,14 +901,16 @@ h1,h2{font-family:'Cormorant Garamond',serif}
     <div class="tool-status" id="status"></div>
 
     <!-- Pipeline -->
-    <div class="pipeline-row" id="pipeline-row" style="display:none">
-      <div class="pipeline-step"><img id="pipe-orig"><div class="pipeline-step-label">Original</div></div>
-      <div class="pipeline-arrow">→</div>
-      <div class="pipeline-step"><img id="pipe-nobg"><div class="pipeline-step-label">BG Removed</div></div>
-      <div class="pipeline-arrow">→</div>
-      <div class="pipeline-step"><img id="pipe-prepared"><div class="pipeline-step-label">Prepared</div></div>
-      <div class="pipeline-arrow">→</div>
-      <div class="pipeline-step"><img id="pipe-final" style="height:72px;border:1px solid rgba(201,169,110,.4)"><div class="pipeline-step-label" style="color:var(--gold)">Gemly Studio</div></div>
+    <div id="pipeline-row" style="display:none;flex-direction:column;align-items:center;padding:32px 0;gap:16px">
+      <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:spin 2s linear infinite;opacity:0.7">
+        <polygon points="24,4 36,19 24,15" fill="#e2c97e"/>
+        <polygon points="24,4 12,19 24,15" fill="#c9a96e"/>
+        <polygon points="12,19 24,15 36,19 24,23" fill="#b8913a"/>
+        <polygon points="12,19 24,23 24,44" fill="#9a7840"/>
+        <polygon points="36,19 24,23 24,44" fill="#c9a96e"/>
+        <polygon points="24,4 30,19 24,15" fill="rgba(255,240,180,0.3)"/>
+      </svg>
+      <div id="pipeline-label" style="font-size:13px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-weight:600">Gemly Studio</div>
     </div>
 
     <!-- Result -->
@@ -1278,18 +1275,13 @@ async function generate() {
     const cropped = autoCrop(noBgImg);
     const prepared = prepareImage(cropped);
     pipeRow.style.display = 'flex';
-    document.getElementById('pipe-orig').src = srcDataUrl;
-    document.getElementById('pipe-nobg').src = noBgUrl;
-    document.getElementById('pipe-prepared').src = prepared;
-    document.getElementById('pipe-final').src = '';
-    document.getElementById('pipe-final').style.opacity = '0.3';
-    statusEl.innerHTML = '<div class="tool-status-msg"><span class="spinner" style="width:12px;height:12px;margin-right:6px;vertical-align:middle"></span> Creating your ' + SCENES[selScene].name + ' photo...</div>';
+    statusEl.innerHTML = '';
+    document.getElementById('pipeline-label').textContent = 'Creating ' + SCENES[selScene].name + '...';
     const scene = SCENES[selScene];
     if (scene.skipAI) {
       resultImgUrl = prepared;
       const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-      document.getElementById('pipe-final').src = resultImgUrl;
-      document.getElementById('pipe-final').style.opacity = '1';
+
       statusEl.innerHTML = `<div class="tool-status-msg">✦ Done in ${elapsed}s · ${scene.name}</div>`;
       document.getElementById('result-container').innerHTML = `<img src="${resultImgUrl}" alt="${scene.name}">`;
       resultsEl.classList.add('show');
@@ -1312,8 +1304,7 @@ async function generate() {
     if (!genData?.images?.[0]?.url && !genData?.image?.url) throw new Error('Generation failed');
     resultImgUrl = genData.images?.[0]?.url || genData.image?.url;
     const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-    document.getElementById('pipe-final').src = resultImgUrl;
-    document.getElementById('pipe-final').style.opacity = '1';
+
     statusEl.innerHTML = `<div class="tool-status-msg">✦ Done in ${elapsed}s · ${SCENES[selScene].name}</div>`;
     document.getElementById('result-container').innerHTML = `<img src="${resultImgUrl}" alt="${SCENES[selScene].name}">`;
     resultsEl.classList.add('show');
@@ -1360,10 +1351,10 @@ async function downloadResult() {
 
 // ─── SUBSCRIPTION TIERS ───────────────────────────────────────────────────────
 const TIERS = {
-  free:    { name: 'Free',    photosPerMonth: 3,    scenes: ['studio','marble','concrete','botanical','rosepetal'] },
-  starter: { name: 'Starter', photosPerMonth: 50,   scenes: ['studio','marble','concrete','botanical','rosepetal','onhand'] },
-  pro:     { name: 'Pro',     photosPerMonth: 100,  scenes: ['studio','marble','concrete','botanical','rosepetal','onhand','velvet','dark','warmsuede','candleglow'] },
-  studio:  { name: 'Studio',  photosPerMonth: 9999, scenes: ['studio','marble','concrete','botanical','rosepetal','onhand','velvet','dark','warmsuede','candleglow'] },
+  free:    { name: 'Free',    photosPerMonth: 3,    scenes: ['studio','marble','concrete','botanical'] },
+  starter: { name: 'Starter', photosPerMonth: 50,   scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
+  pro:     { name: 'Pro',     photosPerMonth: 150,  scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
+  studio:  { name: 'Studio',  photosPerMonth: 500,  scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
 };
 
 // ─── USAGE & TIER STORAGE ─────────────────────────────────────────────────────
