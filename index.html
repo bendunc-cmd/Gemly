@@ -2226,6 +2226,13 @@ const JTYPE_HINTS = {
   bracelet: 'On-Hand: bracelet worn on wrist',
 };
 
+const ONHAND_CHIP_LABELS = {
+  ring:     'On-Hand',
+  earrings: 'In-Ear',
+  necklace: 'On-Neck',
+  bracelet: 'On-Wrist',
+};
+
 function setJewelryType(val) {
   jewelryType = val;
   document.querySelectorAll('.jtype-btn').forEach(b => b.classList.remove('active'));
@@ -2618,9 +2625,10 @@ function rebuildSceneGrid() {
     const locked = !canUseScene(s.id);
     const btn = document.createElement('button');
     btn.className = 'tool-scene' + (i === selScene ? ' on' : '') + (locked ? ' locked' : '');
+    const chipLabel = s.id === 'onhand' ? (ONHAND_CHIP_LABELS[jewelryType] || s.name) : s.name;
     btn.innerHTML = `
       <div class="tool-scene-swatch" style="background:${s.swatch}"></div>
-      <div class="tool-scene-name">${s.name}${locked ? ' <span class="lock-badge">Pro ✦</span>' : ''}</div>
+      <div class="tool-scene-name">${chipLabel}${locked ? ' <span class="lock-badge">Pro ✦</span>' : ''}</div>
       <div class="tool-scene-desc">${s.desc}</div>
     `;
     btn.onclick = () => {
