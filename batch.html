@@ -525,7 +525,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
   // Pass data URL directly to NB Pro — same approach as main app
 
   const scenePrompt = scene.getPrompt ? scene.getPrompt(jewelryType) : scene.prompt;
-  const genData = await fetch('/api/fal', {
+  const genRes = await fetch('/api/fal', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ action: 'generate', payload: {
@@ -536,7 +536,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
       num_images: 1,
       safety_tolerance: '6'
     }})
-  }).then(r => r.json());
+  });
 
   if (!genRes.ok) {
     const errText = await genRes.text().catch(() => '');
