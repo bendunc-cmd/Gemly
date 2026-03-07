@@ -97,8 +97,8 @@ a{color:var(--gold);text-decoration:none}
   <div class="or-divider">— or upload from your device —</div>
   <div class="upload-zone" id="uploadZone">
     <p>Drop jewelry photos here or <strong style="color:var(--gold)">click to browse</strong></p>
-    <input type="file" id="fileInput" accept="image/*" multiple>
   </div>
+  <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
 </div>
 
 <div class="queue" id="queueSection" style="display:none">
@@ -311,7 +311,7 @@ initSceneSelector();
 
 const uploadZone = document.getElementById('uploadZone');
 const fileInput = document.getElementById('fileInput');
-uploadZone.onclick = () => fileInput.click();
+uploadZone.onclick = (e) => { e.stopPropagation(); fileInput.click(); };
 uploadZone.ondragover = e => { e.preventDefault(); uploadZone.classList.add('dragover'); };
 uploadZone.ondragleave = () => uploadZone.classList.remove('dragover');
 uploadZone.ondrop = e => {
