@@ -533,7 +533,7 @@ async function generateSceneFromCropped(croppedDataUrl, scene) {
   // Pass data URL directly to NB Pro — same approach as main app
 
   const scenePrompt = scene.getPrompt ? scene.getPrompt(jewelryType) : scene.prompt;
-  const genRes = await fetch('https://fal.run/fal-ai/nano-banana-pro/edit', {
+  const genRes = await fetch('https://fal.run/fal-ai/nano-banana-2/edit', {
     method: 'POST',
     headers: {
       'Authorization': 'Key ' + FAL_KEY,
