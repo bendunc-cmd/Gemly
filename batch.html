@@ -110,11 +110,6 @@ a{color:var(--gold);text-decoration:none}
     </div>
   </div>
 
-  <div style="margin-bottom:16px">
-    <label style="font-size:13px;color:var(--t2);display:block;margin-bottom:8px">Select scenes to generate:</label>
-    <div class="scene-selector" id="sceneSelector"></div>
-  </div>
-
   <div style="margin-bottom:20px;padding:14px 18px;background:var(--s2);border:1px solid var(--b1);border-radius:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
     <span style="font-size:12px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em">Jewellery Type</span>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -123,7 +118,12 @@ a{color:var(--gold);text-decoration:none}
       <button id="type_necklace" class="scene-chip type-chip" onclick="setJewelryType('necklace')">📿 Necklace</button>
       <button id="type_bracelet" class="scene-chip type-chip" onclick="setJewelryType('bracelet')">⬡ Bracelet</button>
     </div>
-    <span style="font-size:11px;color:var(--t3)">Affects On-Hand placement and scene positioning</span>
+    <span id="typeHint" style="font-size:11px;color:var(--t3)">On-Hand scene: flat lay on hand</span>
+  </div>
+
+  <div style="margin-bottom:16px">
+    <label style="font-size:13px;color:var(--t2);display:block;margin-bottom:8px">Select scenes to generate:</label>
+    <div class="scene-selector" id="sceneSelector"></div>
   </div>
 
   <div style="margin-bottom:20px;padding:14px 18px;background:var(--s2);border:1px solid var(--b1);border-radius:10px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
@@ -292,17 +292,32 @@ function setOrientation(val) {
   document.getElementById('orientUpright').classList.toggle('active', val === 'upright');
 }
 
+const TYPE_HINTS = {
+  ring:     'On-Hand scene: flat lay on hand',
+  earrings: 'On-Hand scene: earring worn in ear',
+  necklace: 'On-Hand scene: necklace worn around neck',
+  bracelet: 'On-Hand scene: bracelet worn on wrist',
+};
+
 function setJewelryType(val) {
   jewelryType = val;
   document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
   document.getElementById('type_' + val).classList.add('active');
+  // Update hint text
+  const hint = document.getElementById('typeHint');
+  if (hint) hint.textContent = TYPE_HINTS[val] || '';
+  // Auto-select onhand if earrings/necklace/bracelet — deselect if back to ring
+  // (user can still manually override)
+  if (val !== 'ring') {
+    selectedScenes.add('onhand');
+  }
+  // Re-render scene chips to reflect any state change
+  renderSceneSelector();
 }
 
-const UPRIGHT_PREFIX = 'First, reposition the jewelry so it is standing upright on its edge — the ring should be vertical, balanced on the surface like a display stand would hold it, seen from a slight angle. Then apply this scene: ';
-const HOOP_SUFFIX = ' ABSOLUTE RULES — APPLY TO EVERY SCENE: (1) JEWELLERY PRESERVATION: The jewellery piece is locked. Every single detail — every bead, link, texture, surface finish, shape, and metal colour — must be reproduced with forensic accuracy. Do not simplify, smooth, redesign, reinterpret, or alter the jewellery in any way whatsoever. The jewellery must look identical to the input image. (2) OPEN AREAS: If the jewellery has any hollow or open areas such as the centre of a hoop, those areas must remain fully transparent, showing only the background surface through them. Never fill hollow centres with shadow or solid material.';
-
-function initSceneSelector() {
+function renderSceneSelector() {
   const el = document.getElementById('sceneSelector');
+  el.innerHTML = '';
   SCENES.forEach(s => {
     const chip = document.createElement('button');
     chip.className = 'scene-chip' + (selectedScenes.has(s.id) ? ' active' : '');
@@ -315,7 +330,11 @@ function initSceneSelector() {
     el.appendChild(chip);
   });
 }
-initSceneSelector();
+
+const UPRIGHT_PREFIX = 'First, reposition the jewelry so it is standing upright on its edge — the ring should be vertical, balanced on the surface like a display stand would hold it, seen from a slight angle. Then apply this scene: ';
+const HOOP_SUFFIX = ' ABSOLUTE RULES — APPLY TO EVERY SCENE: (1) JEWELLERY PRESERVATION: The jewellery piece is locked. Every single detail — every bead, link, texture, surface finish, shape, and metal colour — must be reproduced with forensic accuracy. Do not simplify, smooth, redesign, reinterpret, or alter the jewellery in any way whatsoever. The jewellery must look identical to the input image. (2) OPEN AREAS: If the jewellery has any hollow or open areas such as the centre of a hoop, those areas must remain fully transparent, showing only the background surface through them. Never fill hollow centres with shadow or solid material.';
+
+renderSceneSelector();
 
 const uploadZone = document.getElementById('uploadZone');
 const fileInput = document.getElementById('fileInput');
