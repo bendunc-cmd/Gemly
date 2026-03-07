@@ -421,8 +421,13 @@ h1,h2{font-family:'Cormorant Garamond',serif}
 }
 .tool-hdr p{font-size:15px;color:var(--t2);font-weight:300;line-height:1.7}
 #usage-badge{
-  font-size:11px;font-weight:600;
-  letter-spacing:.08em;margin-top:10px;
+  font-size:15px;font-weight:700;
+  letter-spacing:.04em;margin-top:16px;
+  padding:10px 20px;
+  background:rgba(201,169,110,.08);
+  border:1px solid rgba(201,169,110,.25);
+  border-radius:4px;
+  display:inline-block;
 }
 
 .tool-app{
@@ -458,16 +463,16 @@ h1,h2{font-family:'Cormorant Garamond',serif}
 
 /* Scene picker */
 .tool-scenes-label{
-  font-size:10px;font-weight:700;
+  font-size:11px;font-weight:700;
   letter-spacing:.16em;text-transform:uppercase;
-  color:var(--t3);margin-bottom:10px;display:block;
+  color:var(--t3);margin-bottom:12px;display:block;
 }
 .tool-scenes{
-  display:grid;grid-template-columns:repeat(6,1fr);
-  gap:6px;margin-bottom:20px;
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:8px;margin-bottom:20px;
 }
 .tool-scene{
-  padding:12px 6px;
+  padding:16px 8px;
   border-radius:3px;
   border:1px solid var(--line);
   background:var(--bg);
@@ -482,11 +487,11 @@ h1,h2{font-family:'Cormorant Garamond',serif}
   color:var(--t1);
 }
 .tool-scene-swatch{
-  width:24px;height:24px;border-radius:3px;
-  margin:0 auto 6px;border:1px solid rgba(255,255,255,.06);
+  width:32px;height:32px;border-radius:4px;
+  margin:0 auto 8px;border:1px solid rgba(255,255,255,.06);
 }
-.tool-scene-name{font-size:10px;font-weight:600;letter-spacing:.02em}
-.tool-scene-desc{font-size:9px;color:var(--t3);margin-top:2px}
+.tool-scene-name{font-size:12px;font-weight:600;letter-spacing:.02em}
+.tool-scene-desc{font-size:10px;color:var(--t3);margin-top:3px}
 
 /* Gen button */
 .tool-gen{
@@ -620,7 +625,7 @@ h1,h2{font-family:'Cormorant Garamond',serif}
   .hdr-nav{display:none}
   .steps,.scenes-grid,.pains{grid-template-columns:1fr}
   .pricing-grid{grid-template-columns:1fr 1fr}
-  .tool-scenes{grid-template-columns:repeat(3,1fr)}
+  .tool-scenes{grid-template-columns:repeat(5,1fr)}
   .hero-stats{flex-direction:column;border:none;gap:0}
   .hero-stat{border-right:none;border-bottom:1px solid var(--line);width:100%}
   .footer{flex-direction:column;align-items:flex-start;padding:40px 24px}
@@ -853,7 +858,7 @@ h1,h2{font-family:'Cormorant Garamond',serif}
     <p class="section-label" style="text-align:center">The Studio</p>
     <h2 class="serif" style="font-size:clamp(36px,4.5vw,56px);font-weight:300;margin-bottom:12px">Try it now</h2>
     <p style="font-size:14px;color:var(--t2);font-weight:300;line-height:1.7">Upload any jewelry photo and see the transformation. 3 free shots, no card required.</p>
-    <div id="usage-badge" style="margin-top:10px"></div>
+    <div id="usage-badge" style="margin-top:16px;text-align:center;display:block"></div>
   </div>
 
   <div class="tool-app">
