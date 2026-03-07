@@ -30,6 +30,9 @@
 
 .tool-scene.locked { opacity: 0.5; cursor: pointer; }
 .tool-scene.locked:hover { opacity: 0.75; border-color: var(--gold-d); }
+.jtype-btn{padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--t2);transition:all .15s}
+.jtype-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,169,110,.08)}
+.jtype-btn:hover{border-color:var(--line2);color:var(--t1)}
 .lock-badge { font-size: 9px; font-weight: 700; letter-spacing: .06em; color: var(--gold); background: rgba(201,169,110,.15); border: 1px solid rgba(201,169,110,.3); border-radius: 4px; padding: 1px 5px; margin-left: 4px; vertical-align: middle; }
 
 body{
@@ -889,6 +892,18 @@ h1,h2{font-family:'Cormorant Garamond',serif}
       <div class="tool-upload-rm" id="upload-rm" onclick="event.stopPropagation();clearUpload()">✕</div>
     </div>
     <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" style="display:none">
+
+    <!-- Jewellery Type -->
+    <div style="margin-bottom:14px;padding:12px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Jewellery Type</span>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button id="jtype_ring" class="jtype-btn active" onclick="setJewelryType('ring')">💍 Ring</button>
+        <button id="jtype_earrings" class="jtype-btn" onclick="setJewelryType('earrings')">✦ Earrings</button>
+        <button id="jtype_necklace" class="jtype-btn" onclick="setJewelryType('necklace')">📿 Necklace</button>
+        <button id="jtype_bracelet" class="jtype-btn" onclick="setJewelryType('bracelet')">⬡ Bracelet</button>
+      </div>
+      <span id="jtype-hint" style="font-size:11px;color:var(--t3)">On-Hand: flat lay on hand</span>
+    </div>
 
     <!-- Scenes -->
     <span class="tool-scenes-label">Choose Scene</span>
@@ -1977,6 +1992,18 @@ h1,h2{font-family:'Cormorant Garamond',serif}
     </div>
     <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" style="display:none">
 
+    <!-- Jewellery Type -->
+    <div style="margin-bottom:14px;padding:12px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+      <span style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Jewellery Type</span>
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        <button id="jtype2_ring" class="jtype-btn active" onclick="setJewelryType('ring')">💍 Ring</button>
+        <button id="jtype2_earrings" class="jtype-btn" onclick="setJewelryType('earrings')">✦ Earrings</button>
+        <button id="jtype2_necklace" class="jtype-btn" onclick="setJewelryType('necklace')">📿 Necklace</button>
+        <button id="jtype2_bracelet" class="jtype-btn" onclick="setJewelryType('bracelet')">⬡ Bracelet</button>
+      </div>
+      <span id="jtype2-hint" style="font-size:11px;color:var(--t3)">On-Hand: flat lay on hand</span>
+    </div>
+
     <!-- Scenes -->
     <span class="tool-scenes-label">Choose Scene</span>
     <div class="tool-scenes" id="scene-grid"></div>
@@ -2190,6 +2217,32 @@ let selScene = 3;
 let selSize = 0;
 let srcDataUrl = null;
 let resultImgUrl = null;
+let jewelryType = 'ring';
+
+const JTYPE_HINTS = {
+  ring:     'On-Hand: flat lay on hand',
+  earrings: 'On-Hand: earring worn in ear',
+  necklace: 'On-Hand: necklace worn around neck',
+  bracelet: 'On-Hand: bracelet worn on wrist',
+};
+
+function setJewelryType(val) {
+  jewelryType = val;
+  document.querySelectorAll('.jtype-btn').forEach(b => b.classList.remove('active'));
+  ['jtype_', 'jtype2_'].forEach(prefix => {
+    const btn = document.getElementById(prefix + val);
+    if (btn) btn.classList.add('active');
+  });
+  ['jtype-hint', 'jtype2-hint'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = JTYPE_HINTS[val] || '';
+  });
+  // Auto-select On-Hand scene when switching to earrings/necklace/bracelet
+  if (val !== 'ring') {
+    const onhandIdx = SCENES.findIndex(s => s.id === 'onhand');
+    if (onhandIdx !== -1) { selScene = onhandIdx; rebuildSceneGrid(); }
+  }
+}
 
 // Scene grid built by rebuildSceneGrid() below
 
@@ -2389,7 +2442,7 @@ async function generate() {
     }
     // Step 5: Generate via proxy
     const genData = await falProxy('generate', {
-      prompt: scene.prompt + HOOP_SUFFIX,
+      prompt: (scene.getPrompt ? scene.getPrompt(jewelryType) : scene.prompt) + HOOP_SUFFIX,
       image_urls: [prepared],
       aspect_ratio: '4:3',
       output_format: 'jpeg',
