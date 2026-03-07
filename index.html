@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Gemly Studio — Professional Jewelry Photos in Seconds</title>
-<meta name="description" content="Turn phone photos into professional jewelry product shots. AI-powered background removal, 9 studio scenes, marketplace sizing. Built for Etsy, Amazon & Shopify sellers.">
+<meta name="description" content="Turn phone photos into professional jewelry product shots. AI-powered background removal, 10 studio scenes, marketplace sizing. Built for Etsy, Amazon & Shopify sellers.">
 <link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAACHUlEQVR42u2UzUtUURjGf+fcccYpzRn7sjEQDTMXSUgwLgyicmGtilbhSiQYNCP6B4IoJCpaJKHYQlpKRTDUSikK3LjJRisRNcFJxcbx3vm83junndKqmZhy0f1tz3ve8/C+z3nAwcHB4X9H/OnFsycPqNqqcpS5zvRCgvEZU/x1Ad2X6lSwsZLmoxUc8nvoejDFw9ARZDzC3KpictFiYnaTZ28TougC3g+0q9YGD2vxDP4yN92PPjEQnhfR11eU0GdZW/pKWXkp2DmGx0xujWzk1VvmU3Svt0W1Bqv5Hs/hkjnC48sMhOcFgG2Z7Kuux+X1oetZJmYtGgKSyy27VVEENNbsUdcu+FmPruL3eflhwI3+qa1zpXIgNQJ1x0lkNZIZBVLReaY0r8m6flfw+Zsu7g5+UF1tXnStlLGPJvPLSbG9Q4mybTy7fPj8Po7JGNV73fS/SVO0Fdx+bojRiAVWgqbDJjX73VvjVSikppEyYmym4wQqSwhPmPS91IvnAYDOxzHxJSqpPeiivdnzq5OFIL62hLfEJrKYIzS4nre5ZSHfsPepQcyAi0H3dgMpMbMpTGMVI+2iZ0gvKAcKEjATzYqeoQQnal2cavQoAE3TSG6sgJXm5nCKuZXCAkkWmlyjkylx/1WGq21eACzbRsssc+dFhnfTKfHPMryvo0KdbvKphZFzqq+jQrEThM5XqSfX63fmcQcHB4di8ROJpcvn1BC21wAAAABJRU5ErkJggg==">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -308,6 +308,38 @@ h1,h2{font-family:'Cormorant Garamond',serif}
 }
 .scene-desc{font-size:12px;color:var(--t3);font-weight:400}
 
+
+/* ══ SCENE TIER BADGES ══ */
+.scene-card{position:relative;overflow:hidden}
+.scene-tier-badge{
+  position:absolute;top:10px;right:10px;
+  font-size:10px;font-weight:800;letter-spacing:.14em;
+  padding:4px 9px;border-radius:3px;
+  text-transform:uppercase;pointer-events:none;
+  line-height:1.4;
+  z-index:10;
+}
+.scene-tier-badge.starter{
+  background:#d4af64;
+  color:#0d0d0d;
+  border:none;
+}
+.scene-tier-badge.pro{
+  background:#7c3aed;
+  color:#ffffff;
+  border:none;
+}
+.scene-card.pro-locked{
+  opacity:.55;
+}
+.scene-card.pro-locked .scene-swatch::after{
+  content:'';
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.2);
+  border-radius:3px;
+}
+.scene-card.pro-locked .scene-swatch{position:relative}
+
 /* ══ PAINS ══ */
 .pains{
   display:grid;grid-template-columns:repeat(3,1fr);
@@ -680,7 +712,7 @@ h1,h2{font-family:'Cormorant Garamond',serif}
 
   <div class="hero-stats fade-up d4">
     <div class="hero-stat">
-      <div class="hero-stat-n">9</div>
+      <div class="hero-stat-n">10</div>
       <div class="hero-stat-l">Studio Scenes</div>
     </div>
     <div class="hero-stat">
@@ -688,7 +720,7 @@ h1,h2{font-family:'Cormorant Garamond',serif}
       <div class="hero-stat-l">Platform Sizes</div>
     </div>
     <div class="hero-stat">
-      <div class="hero-stat-n">~20s</div>
+      <div class="hero-stat-n">~30s</div>
       <div class="hero-stat-l">Per Photo</div>
     </div>
     <div class="hero-stat">
@@ -713,7 +745,7 @@ h1,h2{font-family:'Cormorant Garamond',serif}
     <div class="step">
       <div class="step-num">02</div>
       <h3>Choose a Scene</h3>
-      <p>Select from 9 studio scenes engineered specifically for jewelry. Every lighting setup, every surface is tuned to make metals and gemstones shine.</p>
+      <p>Select from 10 studio scenes engineered specifically for jewelry. Every lighting setup, every surface is tuned to make metals and gemstones shine.</p>
     </div>
     <div class="step">
       <div class="step-num">03</div>
@@ -728,53 +760,68 @@ h1,h2{font-family:'Cormorant Garamond',serif}
 <!-- ══ SCENES ══ -->
 <div class="section" id="scenes">
   <p class="section-label">Studio Scenes</p>
-  <h2 class="section-title">9 scenes built<br><em>for jewelry.</em></h2>
+  <h2 class="section-title">10 scenes built<br><em>for jewelry.</em></h2>
   <p class="section-body" style="margin-top:12px">Each scene is designed around how light interacts with metal, stone, and fine detail — not repurposed from a generic photo tool.</p>
   <div class="scenes-grid">
     <div class="scene-card">
+      <div class="scene-tier-badge starter">Starter</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#1a1428,#2d2040)"></div>
       <div class="scene-name">Purple Silk</div>
       <div class="scene-desc">Luxurious draped charmeuse for fine jewelry</div>
     </div>
     <div class="scene-card">
+      <div class="scene-tier-badge starter">Starter</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#1a1a2a,#2a2a3e)"></div>
       <div class="scene-name">Black Ice</div>
       <div class="scene-desc">Obsidian luxury — metals and gems pop</div>
     </div>
     <div class="scene-card">
+      <div class="scene-tier-badge starter">Starter</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#f8f6f2,#ece8e0)"></div>
       <div class="scene-name">Studio White</div>
       <div class="scene-desc">Amazon & Shopify compliant clean white</div>
     </div>
-    <div class="scene-card">
+    <div class="scene-card  pro-locked">
+      <div class="scene-tier-badge pro">⬡ Pro</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#0a090e,#181620)"></div>
       <div class="scene-name">Dark Luxury</div>
       <div class="scene-desc">Dramatic black surface — dramatic editorial</div>
     </div>
     <div class="scene-card">
+      <div class="scene-tier-badge starter">Starter</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#d8ceb8,#b4a888)"></div>
       <div class="scene-name">Botanical Flat</div>
       <div class="scene-desc">Warm linen lifestyle for artisan jewelry</div>
     </div>
-    <div class="scene-card">
+    <div class="scene-card  pro-locked">
+      <div class="scene-tier-badge pro">⬡ Pro</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#e8d0b8,#c4a88c)"></div>
       <div class="scene-name">On-Hand</div>
       <div class="scene-desc">Lifestyle worn — converts browsers to buyers</div>
     </div>
-    <div class="scene-card">
+    <div class="scene-card  pro-locked">
+      <div class="scene-tier-badge pro">⬡ Pro</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#c8922a,#8a5c18)"></div>
       <div class="scene-name">Warm Suede</div>
       <div class="scene-desc">Cool-warm contrast for gold and copper tones</div>
     </div>
-    <div class="scene-card">
+    <div class="scene-card  pro-locked">
+      <div class="scene-tier-badge pro">⬡ Pro</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#1a1008,#2e1e08)"></div>
       <div class="scene-name">Candle Glow</div>
       <div class="scene-desc">Moody amber bokeh — romantic and intimate</div>
     </div>
     <div class="scene-card">
+      <div class="scene-tier-badge starter">Starter</div>
       <div class="scene-swatch" style="background:linear-gradient(135deg,#f5f0ee,#e8dbd8)"></div>
       <div class="scene-name">Rose & Cream</div>
       <div class="scene-desc">Bright feminine luxury for delicate pieces</div>
+    </div>
+    <div class="scene-card">
+      <div class="scene-tier-badge starter">Starter</div>
+      <div class="scene-swatch" style="background:linear-gradient(135deg,#8a8a8a,#5a5a5a)"></div>
+      <div class="scene-name">Raw Concrete</div>
+      <div class="scene-desc">Urban editorial</div>
     </div>
   </div>
 </div>
@@ -807,7 +854,7 @@ h1,h2{font-family:'Cormorant Garamond',serif}
 <div class="section" id="pricing">
   <p class="section-label">Pricing</p>
   <h2 class="section-title">Simple,<br><em>transparent pricing.</em></h2>
-  <p class="section-body" style="margin-top:12px">No hidden fees. Cancel anytime. Every plan includes all 9 scenes and all marketplace sizes.</p>
+  <p class="section-body" style="margin-top:12px">No hidden fees. Cancel anytime. Every plan includes all marketplace sizes.</p>
   <div class="pricing-grid">
     <div class="price-card">
       <div class="price-tier">Free</div>
@@ -816,9 +863,8 @@ h1,h2{font-family:'Cormorant Garamond',serif}
       <div class="price-divider"></div>
       <ul class="price-features">
         <li>3 images, one-time</li>
-        <li>All 9 scenes</li>
+        <li>All 10 scenes</li>
         <li>All marketplace sizes</li>
-        <li>AI background removal</li>
       </ul>
       <button class="price-btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">Try Free</button>
     </div>
@@ -829,9 +875,8 @@ h1,h2{font-family:'Cormorant Garamond',serif}
       <div class="price-divider"></div>
       <ul class="price-features">
         <li>50 images / month</li>
-        <li>All 9 scenes</li>
+        <li>6 curated scenes</li>
         <li>All marketplace sizes</li>
-        <li>AI background removal</li>
         <li>Priority processing</li>
       </ul>
       <button class="price-btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">Get Started</button>
@@ -844,9 +889,8 @@ h1,h2{font-family:'Cormorant Garamond',serif}
       <div class="price-divider"></div>
       <ul class="price-features">
         <li>150 images / month</li>
-        <li>All 9 scenes</li>
+        <li>All 10 scenes</li>
         <li>All marketplace sizes</li>
-        <li>AI background removal</li>
         <li>Brand consistency lock</li>
         <li>Priority processing</li>
       </ul>
@@ -858,10 +902,9 @@ h1,h2{font-family:'Cormorant Garamond',serif}
       <div class="price-desc">Power sellers with high volume needs.</div>
       <div class="price-divider"></div>
       <ul class="price-features">
-        <li>500 images / month</li>
-        <li>All 9 scenes</li>
+        <li>350 images / month</li>
+        <li>All 10 scenes</li>
         <li>All marketplace sizes</li>
-        <li>AI background removal</li>
         <li>Brand consistency lock</li>
         <li>API access</li>
       </ul>
@@ -901,1105 +944,6 @@ h1,h2{font-family:'Cormorant Garamond',serif}
         <button id="jtype_earrings" class="jtype-btn" onclick="setJewelryType('earrings')">✦ Earrings</button>
         <button id="jtype_necklace" class="jtype-btn" onclick="setJewelryType('necklace')">📿 Necklace</button>
         <button id="jtype_bracelet" class="jtype-btn" onclick="setJewelryType('bracelet')">⬡ Bracelet</button>
-      </div>
-      
-    </div>
-
-    <!-- Scenes -->
-    <span class="tool-scenes-label">Choose Scene</span>
-    <div class="tool-scenes" id="scene-grid"></div>
-
-    <!-- Generate -->
-    <button class="tool-gen off" id="gen-btn" disabled>Generate Studio Photo</button>
-
-    <!-- Status -->
-    <div class="tool-status" id="status"></div>
-
-    <!-- Pipeline -->
-    <div id="pipeline-row" style="display:none;flex-direction:column;align-items:center;padding:32px 0;gap:16px">
-      <svg width="40" height="40" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" style="animation:spin 2s linear infinite;opacity:0.7">
-        <polygon points="24,4 36,19 24,15" fill="#e2c97e"/>
-        <polygon points="24,4 12,19 24,15" fill="#c9a96e"/>
-        <polygon points="12,19 24,15 36,19 24,23" fill="#b8913a"/>
-        <polygon points="12,19 24,23 24,44" fill="#9a7840"/>
-        <polygon points="36,19 24,23 24,44" fill="#c9a96e"/>
-        <polygon points="24,4 30,19 24,15" fill="rgba(255,240,180,0.3)"/>
-      </svg>
-      <div id="pipeline-label" style="font-size:13px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;font-weight:600">Gemly Studio</div>
-    </div>
-
-    <!-- Result -->
-    <div class="tool-results" id="results">
-      <div class="tool-results-hdr">
-        <div class="tool-results-title">Your Photo</div>
-        <div class="tool-results-actions">
-          <button class="tool-act dl" id="dl-btn" onclick="downloadResult()">↓ Download</button>
-          <button class="tool-act" onclick="regenerate()">↻ Regenerate</button>
-        </div>
-      </div>
-      <div class="tool-result-img" id="result-container"></div>
-      <div style="margin-top:14px">
-        <span class="tool-scenes-label">Export Size</span>
-        <div class="tool-sizes" id="size-row"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ FOOTER ══ -->
-<footer class="footer">
-  <div class="footer-left">
-    <div class="footer-brand">Gemly Studio</div>
-    <p>Studio-quality jewelry photos in seconds.</p>
-    <p style="margin-top:6px">© 2026 Gemly Studio. All rights reserved.</p>
-  </div>
-  <div class="footer-links">
-    <a href="#how">Process</a>
-    <a href="#scenes">Scenes</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#tool">Try Free</a>
-  </div>
-</footer>
-
-<script>
-// ═══════════════════════════════════════
-// Gemly Production — Nano Banana Pro Pipeline
-// ALL LOGIC UNCHANGED — AESTHETICS ONLY
-// ═══════════════════════════════════════
-
-const HOOP_SUFFIX = ' ABSOLUTE RULES — APPLY TO EVERY SCENE: (1) JEWELLERY PRESERVATION: The jewellery piece is locked. Every single detail — every bead, link, texture, surface finish, shape, and metal colour — must be reproduced with forensic accuracy. Do not simplify, smooth, redesign, reinterpret, or alter the jewellery in any way whatsoever. The jewellery must look identical to the input image. (2) OPEN AREAS: If the jewellery has any hollow or open areas such as the centre of a hoop, those areas must remain fully transparent, showing only the background surface through them. Never fill hollow centres with shadow or solid material.';
-
-const SCENES = [
-  {
-    id: 'velvet', name: 'Purple Silk', desc: 'Luxe silk drape',
-    swatch: 'linear-gradient(135deg,#1a1428,#2d2040)', bgColor: '#1a1020',
-    prompt: `CRITICAL RULE #1 — METAL COLOUR IS LOCKED: The exact metal colour of the jewellery must not change. If the metal is silver it must remain exactly silver — cool, bright, neutral grey. If it is gold, it must remain that exact shade of gold. DO NOT shift silver to rose gold, yellow gold, bronze or copper. DO NOT add any warm colour cast to the metal. The metal colour in the input is the only correct output colour.
-
-CRITICAL RULE #2 — REPLACE BACKGROUND ONLY: Change only the background. The jewellery shape, size, finish, stone colour, and metal colour must be identical to the input image.
-
-New scene: The ring rests on its flat base directly ON TOP of a draped dark plum-purple silk charmeuse surface. The fabric is pulled smooth directly beneath the ring — no fabric wrapping around or over the ring. Two or three soft organic folds flow outward in the background, gradually softening to bokeh.
-
-Lighting setup: Two large diffused softboxes at 45 degrees from either side, colour temperature 5500K, preserving the ring's cool silver tones. A narrow overhead strip light running front-to-back creates one elongated bright specular highlight along the top curve of the ring band. A thin black card reflection defines the lower edge of the band, creating a dark gradient line that shows the metal's curvature. The silk catches oblique sidelight creating subtle sheen without competing with the ring.
-
-Camera: 100mm macro lens. Aperture f/2.8. Shallow depth of field — ring in tack-sharp focus, background silk folds dissolving into creamy bokeh. Tight crop, ring fills 60% of frame.
-
-The ring's silver metal must retain its characteristic cool bright tone — no warm cast, no colour shift. Crisp controlled specular highlights on the metal surface. Physically accurate reflections. No plastic texture. No floating. No dark edges. No foreign objects. No text.`
-  },
-  {
-    id: 'marble', name: 'Black Ice', desc: 'Obsidian luxury',
-    swatch: 'linear-gradient(135deg,#1a1a2e,#16213e)', bgColor: '#0d0d1a',
-    prompt: `BACKGROUND REPLACEMENT ONLY. The jewellery is the hero and must not change. Every bead, link, clasp, and surface finish must be reproduced with absolute forensic precision. Do not alter the jewellery in any way.
-
-New environment: The jewellery rests on a surface of dark smoked obsidian glass — deep charcoal-black, almost but not quite mirror-finish, with a subtle smoky depth to it. The jewellery produces a clean, slightly diffused reflection directly beneath it in the dark glass surface — the reflection is softer and dimmer than the piece itself, adding a second ghost image below it. The glass surface extends to all four edges of the frame with no interruption — no edges, no walls, no props, nothing else.
-
-Lighting: A single large rectangular softbox positioned directly overhead at 5500K, dropping a precise pool of cool silver-white light onto the jewellery. This central pool of light is surrounded by darkness — the edges of the frame fall away into deep shadow, creating a natural vignette that concentrates all attention on the jewellery. Two thin black V-flat cards flanking the jewellery from the sides ensure the dark glass surface stays dark and does not pick up any spill light. The jewellery itself glows with cool brilliance — each bead or surface catching the overhead light and producing a crisp specular highlight. The contrast between the luminous silver jewellery and the dark glass beneath is extreme and intentional.
-
-This is the aesthetic used by Rolex, Bulgari, and high jewellery houses for their hero product shots: jewellery suspended in a pool of light against darkness, the piece itself the only source of brightness in the frame. Tack-sharp focus on the jewellery. 100mm macro lens, f/8. No warm tones. No walls. No foreign objects. No text.`
-  },
-  {
-    id: 'studio', name: 'Studio White', desc: 'Clean e-commerce',
-    swatch: 'linear-gradient(135deg,#f8f6f2,#ece8e0)', bgColor: '#f8f8f8',
-    prompt: 'Using this image, keep the jewelry piece exactly as it is — preserve its original metal color, texture, shape, and every detail with extreme accuracy. Only change the background: replace it with a pure clean white seamless studio background. Clean even studio lighting with a subtle soft shadow underneath. E-commerce product photography look. Do not change the jewelry\'s color or material in any way.',
-    skipAI: true
-  },
-  {
-    id: 'dark', name: 'Dark Luxury', desc: 'Dramatic black',
-    swatch: 'linear-gradient(135deg,#0a090e,#181620)', bgColor: '#0a0a0e',
-    prompt: `This is a commercial macro product photography background replacement. The jewelry piece is completely locked — its exact shape, size, cool silver metal color, and surface finish are preserved exactly as shown. Do not reinterpret, recolour, or re-render the jewelry under any circumstances. Only the background changes.
-
-New scene: The jewellery rests on a polished jet-black acrylic surface. The surface is perfectly reflective — the jewellery produces a crisp mirror reflection directly beneath it, the reflected image slightly darker and softer than the piece itself. The background fades to pure uninterrupted black in all directions — no walls, no shadows from external sources, no dark shapes or gradients intruding from any corner or edge of the frame. Just the jewellery, its reflection, and absolute black.
-
-Lighting setup: Two narrow strip lights positioned at 90 degrees from each side (flanking the ring laterally) at 5500K, creating two elongated bright white specular highlights running along the upper and lower edges of the curved silver band. Black V-flat cards front and back absorb any spill, preventing unwanted reflections from entering the band's main face. This produces the signature silver gradient: brilliant white edge highlights transitioning through mid-tone silver to near-black at the band's centre face — giving the metal extreme three-dimensional presence.
-
-Camera: 100mm macro lens. f/8. Tight crop — ring fills 75% of frame. Minimal negative space. Pure black surrounding.
-
-Silver must glow with bright cool brilliance against the black. The light-to-dark gradient across the band is essential — it must be clearly visible. No warm tones anywhere. No background elements. No text.`
-  },
-  {
-    id: 'botanical', name: 'Botanical Flat', desc: 'Warm linen lifestyle',
-    swatch: 'linear-gradient(135deg,#d8ceb8,#b4a888)', bgColor: '#c8b898',
-    prompt: `CRITICAL RULE #1 — METAL COLOUR IS LOCKED: The exact metal colour of the jewellery must not change. If the metal is silver it must remain exactly silver — cool, bright, neutral grey. If it is gold, it must remain that exact shade of gold. DO NOT shift silver to rose gold, yellow gold, bronze or copper. DO NOT add any warm colour cast to the metal. The metal colour in the input is the only correct output colour.
-
-CRITICAL RULE #2 — REPLACE BACKGROUND ONLY: Change only the background. The jewellery shape, size, finish, stone colour, and metal colour must be identical to the input image.
-
-New scene: Overhead flat-lay. The jewellery rests on a natural undyed linen textile surface — fine, tightly woven, warm oat-beige in tone, the weave subtle and refined. Warm natural sunlight rakes across the scene from one side, casting soft dappled shadows and creating beautiful pools of warm golden light on the linen. One eucalyptus sprig with round silver-green leaves is placed casually to the upper left, its shadow falling elegantly across the linen. A single small terracotta clay dish sits to the upper right — simple, handmade-looking, warm rust-orange. The jewellery is centred and clearly the hero. The overall feeling is warm, sun-drenched, artisan — like a boutique jeweller's lifestyle shoot on a sunny afternoon.
-
-Lighting setup: Large overhead softbox providing even, soft illumination across the entire flat-lay, colour temperature 5500K. A secondary silver reflector slightly off-axis creates gentle directional light raking across the linen surface, making the weave texture visible without creating harsh shadows. The ring receives a subtle narrow strip light from above creating one clean specular highlight along the band.
-
-Camera: 50mm lens. Shot from directly overhead (90 degrees top-down). f/8 for full sharpness across the flat lay surface. Ring positioned using rule of thirds.
-
-Silver must retain its cool metallic quality — not warm, not grey. Controlled specular highlight on band. No dark edges. No foreign objects. No text. No floating.`
-  },
-  {
-    id: 'onhand', name: 'On-Hand', desc: 'Lifestyle worn',
-    swatch: 'linear-gradient(135deg,#e8d0b8,#c4a88c)', bgColor: '#d4a882',
-    prompt: `Commercial lifestyle jewelry photography. The jewelry piece shown is the HERO PRODUCT — preserve its exact shape, exact size, exact surface pattern, exact metal color, and every detail with absolute precision. Do not alter, simplify, or reinterpret the jewelry design in any way whatsoever.
-
-PLACEMENT RULES — follow strictly:
-- Earrings: show exactly ONE earring worn in ONE ear only. Side profile of ear. Exactly one earring, no second earring visible anywhere. NO second earring on the left side of frame. NO partial earring visible anywhere. NO ghosted earring in background. NO second piece behind the head or at the jaw. The entire frame shows only one single earring.
-- Rings: one ring on one finger only.
-- Necklaces: worn at the collarbone, front-facing.
-- Bracelets: one wrist only.
-
-MODEL: Close-cropped side or three-quarter shot. Natural warm skin tone. Clean, moisturised skin texture. Hair swept back and away from the ear so the jewelry is clearly visible. No other jewelry. No nail art. No distracting background elements.
-
-LIGHTING: Large softbox 45 degrees upper left. Silver reflector fill right. 4500K color temperature. Jewelry receives a narrow cool highlight strip (5500K) so metal reads distinctly cooler than skin. Shallow depth of field — jewelry in sharp focus, background soft and creamy neutral.
-
-CRITICAL HARD RULES: Only ONE single instance of the jewelry piece exists in this image. The left side and background of the frame are clear — no earring, no partial earring, no blur of an earring. Exact design preserved. No invented details. Photorealistic.`
-  },
-  {
-    id: 'warmsuede', name: 'Warm Suede', desc: 'Cool-warm contrast',
-    swatch: 'linear-gradient(135deg,#8B6914,#c4943c)', bgColor: '#b07830',
-    prompt: `CRITICAL RULE #1 — METAL COLOUR IS LOCKED: The exact metal colour of the jewellery must not change. If the metal is silver it must remain exactly silver — cool, bright, neutral grey. If it is gold, it must remain that exact shade of gold. DO NOT shift silver to rose gold, yellow gold, bronze or copper. DO NOT add any warm colour cast to the metal. The metal colour in the input is the only correct output colour.
-
-CRITICAL RULE #2 — REPLACE BACKGROUND ONLY: Change only the background. The jewellery shape, size, finish, stone colour, and metal colour must be identical to the input image.
-
-New scene: The jewellery rests on a warm caramel-brown suede surface. The suede has a fine, short nap visible up close — individual fibres catching light at their tips, with a soft directional pile. The suede fills the entire frame completely to all four edges — no walls, no dark corners, no black edges, no foreign objects, nothing except suede. The suede surface extends uninterrupted in all directions.
-
-Lighting setup: This scene uses a deliberate warm-cool split to make silver pop against the warm background. Key light: a cool-toned LED panel at 6000K aimed directly at the jewellery from above-left — this keeps the silver's cool metallic character intact. Secondary light: a warm tungsten-gelled light at 3200K aimed at the background suede surface only, making the suede glow with deep caramel warmth. The contrast between the cool silver jewellery and warm glowing suede creates premium visual tension. Black card negative fill on the right side creates a dark tonal gradient along the band's right edge, maintaining metal definition against the warm surface.
-
-Camera: 100mm macro lens. f/4. Shallow depth of field — jewellery in sharp focus, suede surface blurring softly. Jewellery fills 65% of frame. Close, intimate crop.
-
-The silver must appear distinctly cool and metallic against the warm suede. Crisp specular highlights. No dark walls. No black edges. No foreign objects anywhere in the frame. No text.`
-  },
-  {
-    id: 'candleglow', name: 'Candle Glow', desc: 'Moody amber bokeh',
-    swatch: 'linear-gradient(135deg,#2a1a08,#5c3a10)', bgColor: '#1a1008',
-    prompt: `BACKGROUND REPLACEMENT ONLY. The jewellery is the hero and must not change. Every bead, link, detail, shape, and surface finish must be reproduced with forensic accuracy. Do not alter the jewellery in any way.
-
-New environment: The jewellery rests on a dark walnut wooden surface — the grain is tight, deep, and satin-smooth. The jewellery is positioned in the lower third of the frame, small and composed, with generous negative space above it. In the background, far behind and completely out of focus: five or six lit pillar candles arranged at varying depths, rendered as large soft amber bokeh spheres — warm, glowing, romantic. The wooden surface stretches all the way to the top of the frame. No walls, no edges, no foreign objects.
-
-This is a pulled-back, editorial composition — the jewellery is intentionally small in the frame, surrounded by breathing room. Think high-end perfume campaign or luxury jewellery catalogue: the negative space IS the luxury.
-
-Lighting: Two light sources kept completely separate. A small, precisely aimed cool daylight spot (5500K) illuminates only the jewellery from directly above — this single pool of cool light makes the silver glow with brilliant clarity against the dark wood. The warm candlelight (2800K) from the background fills only the surface and atmosphere. The jewellery sits where these two worlds meet: cool silver in a warm amber universe.
-
-100mm lens, f/1.8. The jewellery is tack-sharp. The candle bokeh behind is enormous and dreamy. No dark walls. No foreign objects. No text.`
-  },
-  {
-    id: 'rosepetal', name: 'Rose & Cream', desc: 'Bright feminine luxury',
-    swatch: 'linear-gradient(135deg,#e8c8c0,#f0e0d8)', bgColor: '#f5f0ee',
-    prompt: `BACKGROUND REPLACEMENT ONLY. The jewellery is the hero and must not change. Every bead, link, detail, shape, and surface finish must be reproduced with forensic accuracy. Do not alter the jewellery in any way.
-
-New environment: The jewellery rests on smooth pearl-white satin fabric — the kind used in luxury gift boxes, with a subtle cool lustre. The jewellery is positioned slightly below centre in the frame, intentionally small, with generous negative space above and around it — the white satin fills most of the frame. A single fresh rose petal in the palest blush pink lies a few centimetres to one side — one petal only, large and softly out of focus, its translucent edges glowing where the light passes through it. Nothing else. Pure white space, one petal, one piece of jewellery.
-
-This is a pulled-back, minimal luxury composition. Think Tiffany & Co. campaign: mostly white, the jewellery breathing freely in space, the negative space communicating exclusivity.
-
-Lighting: A large overhead softbox at 5500K floods the scene with pure, even, shadowless light. The entire frame is luminous — bright from edge to edge, no vignette, no dark corners. A secondary reflector bounces fill from below. The silver jewellery glows against the white satin — cool, crisp, brilliant. The petal catches the light and becomes translucent and ethereal.
-
-90mm macro lens, f/4. Jewellery fills only 35-40% of the frame — the white space is intentional and elegant. The frame is bright, clean, and luminous from edge to edge. No dark areas anywhere. No foreign objects. No text.`
-  },
-  {
-    id: 'concrete', name: 'Raw Concrete', desc: 'Urban editorial',
-    swatch: 'linear-gradient(135deg,#5a5a5a,#888888)', bgColor: '#606060',
-    prompt: `CRITICAL RULE #1 — METAL COLOUR IS LOCKED: The exact metal colour of the jewellery must not change. If the metal is silver, it must remain exactly silver — cool, bright, neutral grey. DO NOT shift silver to rose gold, yellow gold, bronze, copper, or any warm tone. DO NOT add any warm colour cast to the metal whatsoever. The metal colour in the input is the only correct output colour.
-
-CRITICAL RULE #2 — REPLACE BACKGROUND ONLY: Change only the background. The jewellery shape, size, finish, stone colour, and metal colour must be identical to the input image.
-
-New background scene: The jewellery sits directly on smooth architectural concrete — high-end interior design grade. Medium-cool grey tone, fine-grained with subtle micro-pores. No rough aggregate, no sandy texture. Refined poured concrete with a smooth trowelled finish. Concrete fills the ENTIRE frame edge to edge. No walls, no props, no foreign objects.
-
-Lighting: Large softbox at 30 degrees left. Cool directional light rakes across the concrete revealing fine texture. One dominant cool specular highlight on the metal. A black V-flat card on the right creates a deep dark reflection along the metal's right edge. Cool, desaturated colour grade throughout.
-
-Camera: 100mm macro. f/5.6. Jewellery and immediate concrete in sharp focus, background blurring softly. Jewellery fully visible, fills 55% of frame maximum, centred.
-
-The metal must appear bright, cool, and crisp — NEVER warm, NEVER rose-tinted, NEVER golden. No warm tones anywhere. No dark edges. No foreign objects. No text.`
-  }<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gemly Studio — Professional Jewelry Photos in Seconds</title>
-<meta name="description" content="Turn phone photos into professional jewelry product shots. AI-powered background removal, 9 studio scenes, marketplace sizing. Built for Etsy, Amazon & Shopify sellers.">
-<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAABCGlDQ1BJQ0MgUHJvZmlsZQAAeJxjYGA8wQAELAYMDLl5JUVB7k4KEZFRCuwPGBiBEAwSk4sLGHADoKpv1yBqL+viUYcLcKakFicD6Q9ArFIEtBxopAiQLZIOYWuA2EkQtg2IXV5SUAJkB4DYRSFBzkB2CpCtkY7ETkJiJxcUgdT3ANk2uTmlyQh3M/Ck5oUGA2kOIJZhKGYIYnBncAL5H6IkfxEDg8VXBgbmCQixpJkMDNtbGRgkbiHEVBYwMPC3MDBsO48QQ4RJQWJRIliIBYiZ0tIYGD4tZ2DgjWRgEL7AwMAVDQsIHG5TALvNnSEfCNMZchhSgSKeDHkMyQx6QJYRgwGDIYMZAKbWPz9HbOBQAAACHUlEQVR42u2UzUtUURjGf+fcccYpzRn7sjEQDTMXSUgwLgyicmGtilbhSiQYNCP6B4IoJCpaJKHYQlpKRTDUSikK3LjJRisRNcFJxcbx3vm83junndKqmZhy0f1tz3ve8/C+z3nAwcHB4X9H/OnFsycPqNqqcpS5zvRCgvEZU/x1Ad2X6lSwsZLmoxUc8nvoejDFw9ARZDzC3KpictFiYnaTZ28TougC3g+0q9YGD2vxDP4yN92PPjEQnhfR11eU0GdZW/pKWXkp2DmGx0xujWzk1VvmU3Svt0W1Bqv5Hs/hkjnC48sMhOcFgG2Z7Kuux+X1oetZJmYtGgKSyy27VVEENNbsUdcu+FmPruL3eflhwI3+qa1zpXIgNQJ1x0lkNZIZBVLReaY0r8m6flfw+Zsu7g5+UF1tXnStlLGPJvPLSbG9Q4mybTy7fPj8Po7JGNV73fS/SVO0Fdx+bojRiAVWgqbDJjX73VvjVSikppEyYmym4wQqSwhPmPS91IvnAYDOxzHxJSqpPeiivdnzq5OFIL62hLfEJrKYIzS4nre5ZSHfsPepQcyAi0H3dgMpMbMpTGMVI+2iZ0gvKAcKEjATzYqeoQQnal2cavQoAE3TSG6sgJXm5nCKuZXCAkkWmlyjkylx/1WGq21eACzbRsssc+dFhnfTKfHPMryvo0KdbvKphZFzqq+jQrEThM5XqSfX63fmcQcHB4di8ROJpcvn1BC21wAAAABJRU5ErkJggg==">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=Cormorant:ital,wght@1,300&display=swap" rel="stylesheet">
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-
-:root{
-  --gold:#c9a96e;
-  --gold-l:#e2d0a8;
-  --gold-d:#9a7840;
-  --gold-faint:rgba(201,169,110,.06);
-  --bg:#08070c;
-  --bg2:#0d0c13;
-  --bg3:#111019;
-  --line:rgba(255,255,255,.07);
-  --line2:rgba(255,255,255,.12);
-  --t1:rgba(255,255,255,.92);
-  --t2:rgba(255,255,255,.5);
-  --t3:rgba(255,255,255,.22);
-  --t4:rgba(255,255,255,.1);
-}
-
-.tool-scene.locked { opacity: 0.5; cursor: pointer; }
-.tool-scene.locked:hover { opacity: 0.75; border-color: var(--gold-d); }
-.lock-badge { font-size: 9px; font-weight: 700; letter-spacing: .06em; color: var(--gold); background: rgba(201,169,110,.15); border: 1px solid rgba(201,169,110,.3); border-radius: 4px; padding: 1px 5px; margin-left: 4px; vertical-align: middle; }
-
-body{
-  min-height:100vh;
-  background:var(--bg);
-  color:var(--t1);
-  font-family:'DM Sans',system-ui,sans-serif;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
-}
-
-/* Grain overlay */
-body::before{
-  content:'';
-  position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:1000;opacity:.4;
-}
-
-/* Typography */
-.serif{font-family:'Cormorant Garamond',serif}
-.serif-it{font-family:'Cormorant Garamond',serif;font-style:italic}
-
-h1,h2{font-family:'Cormorant Garamond',serif}
-
-/* Ambient glow */
-.glow-orb{
-  position:absolute;border-radius:50%;
-  filter:blur(120px);pointer-events:none;
-}
-
-/* ══ HEADER ══ */
-.hdr{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:0 48px;height:88px;
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--line);
-  background:rgba(8,7,12,.85);
-  backdrop-filter:blur(20px);
-}
-.hdr-logo{display:flex;align-items:center;gap:12px}
-.hdr-logo svg{width:48px;height:48px;flex-shrink:0}
-.hdr-logo-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:38px;font-weight:500;
-  letter-spacing:.04em;
-}
-.hdr-nav{display:flex;align-items:center;gap:32px}
-.hdr-nav a{
-  font-size:12px;font-weight:500;
-  color:var(--t2);letter-spacing:.08em;text-transform:uppercase;
-  text-decoration:none;transition:color .2s;
-}
-.hdr-nav a:hover{color:var(--t1)}
-.hdr-cta{
-  padding:9px 22px;
-  border:1px solid rgba(201,169,110,.3);
-  border-radius:4px;
-  background:transparent;
-  color:var(--gold);
-  font-size:12px;font-weight:600;
-  font-family:'DM Sans',sans-serif;
-  letter-spacing:.08em;text-transform:uppercase;
-  cursor:pointer;transition:all .2s;text-decoration:none;
-}
-.hdr-cta:hover{background:rgba(201,169,110,.08);border-color:var(--gold)}
-
-/* ══ HERO ══ */
-.hero{
-  position:relative;
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;
-  padding:120px 24px 80px;
-  overflow:hidden;
-}
-.hero-bg{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,169,110,.04) 0%, transparent 70%);
-}
-.hero-rule{
-  width:40px;height:1px;
-  background:var(--gold);
-  margin:0 auto 28px;
-  opacity:.6;
-}
-.hero-eyebrow{
-  font-size:11px;font-weight:600;
-  letter-spacing:.18em;text-transform:uppercase;
-  color:var(--gold);opacity:.8;
-  margin-bottom:20px;
-}
-.hero h1{
-  font-size:clamp(52px,7vw,96px);
-  font-weight:300;line-height:1.0;
-  letter-spacing:-.01em;
-  margin-bottom:12px;
-}
-.hero h1 em{
-  font-style:italic;
-  color:var(--gold-l);
-  font-weight:300;
-}
-.hero-sub{
-  font-size:clamp(15px,1.8vw,18px);
-  color:var(--t2);
-  max-width:480px;
-  margin:20px auto 40px;
-  line-height:1.7;
-  font-weight:300;
-}
-.hero-actions{display:flex;align-items:center;gap:16px;justify-content:center;flex-wrap:wrap}
-.btn-primary{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:14px 36px;
-  background:var(--gold);
-  color:#080710;
-  font-size:13px;font-weight:600;
-  font-family:'DM Sans',sans-serif;
-  letter-spacing:.06em;text-transform:uppercase;
-  border:none;border-radius:3px;
-  cursor:pointer;text-decoration:none;
-  transition:all .25s;
-}
-.btn-primary:hover{background:var(--gold-l);transform:translateY(-1px);box-shadow:0 8px 32px rgba(201,169,110,.2)}
-.btn-ghost{
-  display:inline-flex;align-items:center;gap:8px;
-  padding:13px 28px;
-  border:1px solid var(--line2);
-  color:var(--t2);
-  font-size:13px;font-weight:500;
-  font-family:'DM Sans',sans-serif;
-  letter-spacing:.06em;
-  border-radius:3px;
-  cursor:pointer;text-decoration:none;
-  transition:all .2s;background:transparent;
-}
-.btn-ghost:hover{border-color:var(--t2);color:var(--t1)}
-.hero-note{font-size:17px;font-weight:500;color:var(--t2);margin-top:16px;letter-spacing:.02em}
-
-.hero-stats{
-  display:flex;align-items:center;gap:0;
-  margin-top:72px;
-  border:1px solid var(--line);
-  border-radius:4px;
-  overflow:hidden;
-  background:rgba(255,255,255,.02);
-}
-.hero-stat{
-  padding:20px 40px;
-  text-align:center;
-  border-right:1px solid var(--line);
-}
-.hero-stat:last-child{border-right:none}
-.hero-stat-n{
-  font-family:'Cormorant Garamond',serif;
-  font-size:32px;font-weight:400;
-  color:var(--gold-l);line-height:1;
-  margin-bottom:5px;
-}
-.hero-stat-l{
-  font-size:10px;font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--t3);
-}
-
-/* ══ DIVIDER ══ */
-.section-divider{
-  width:100%;height:1px;
-  background:var(--line);
-  position:relative;
-}
-.section-divider::before{
-  content:'◇';
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  background:var(--bg);
-  padding:0 16px;
-  color:var(--gold);opacity:.4;font-size:10px;
-}
-
-/* ══ SECTIONS ══ */
-.section{
-  max-width:1080px;margin:0 auto;
-  padding:100px 24px;
-}
-.section-sm{
-  max-width:1080px;margin:0 auto;
-  padding:72px 24px;
-}
-
-.section-label{
-  font-size:10px;font-weight:600;
-  letter-spacing:.2em;text-transform:uppercase;
-  color:var(--gold);opacity:.7;
-  margin-bottom:16px;
-}
-.section-title{
-  font-size:clamp(32px,4vw,52px);
-  font-weight:300;line-height:1.1;
-  letter-spacing:-.01em;
-  margin-bottom:16px;
-}
-.section-title em{font-style:italic;color:var(--gold-l)}
-.section-body{
-  font-size:15px;color:var(--t2);
-  line-height:1.8;font-weight:300;
-  max-width:520px;
-}
-
-/* ══ HOW IT WORKS ══ */
-.steps{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  background:var(--line);
-  border:1px solid var(--line);
-  border-radius:4px;
-  overflow:hidden;
-  margin-top:56px;
-}
-.step{
-  background:var(--bg);
-  padding:40px 32px;
-  transition:background .2s;
-}
-.step:hover{background:var(--bg2)}
-.step-num{
-  font-family:'Cormorant Garamond',serif;
-  font-size:48px;font-weight:300;
-  color:rgba(201,169,110,.12);
-  line-height:1;margin-bottom:20px;
-  transition:color .2s;
-}
-.step:hover .step-num{color:rgba(201,169,110,.22)}
-.step h3{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;font-weight:500;
-  margin-bottom:10px;
-  letter-spacing:.01em;
-}
-.step p{font-size:13px;color:var(--t2);line-height:1.7;font-weight:300}
-
-/* ══ SCENES ══ */
-.scenes-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:1px;
-  background:var(--line);
-  border:1px solid var(--line);
-  border-radius:4px;
-  overflow:hidden;
-  margin-top:56px;
-}
-.scene-card{
-  background:var(--bg);
-  padding:28px;
-  position:relative;
-  transition:background .2s;
-  cursor:default;
-}
-.scene-card:hover{background:var(--bg2)}
-.scene-swatch{
-  width:100%;height:64px;
-  border-radius:3px;
-  margin-bottom:16px;
-  border:1px solid rgba(255,255,255,.06);
-}
-.scene-name{
-  font-family:'Cormorant Garamond',serif;
-  font-size:18px;font-weight:500;
-  margin-bottom:5px;letter-spacing:.02em;
-}
-.scene-desc{font-size:12px;color:var(--t3);font-weight:400}
-
-/* ══ PAINS ══ */
-.pains{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:16px;margin-top:56px;
-}
-.pain{
-  padding:28px;
-  border:1px solid var(--line);
-  border-radius:4px;
-  background:var(--bg2);
-  transition:border-color .2s;
-}
-.pain:hover{border-color:rgba(201,169,110,.15)}
-.pain-q{
-  font-family:'Cormorant Garamond',serif;
-  font-size:17px;font-style:italic;font-weight:400;
-  color:var(--t1);margin-bottom:12px;line-height:1.5;
-}
-.pain-a{font-size:13px;color:var(--t2);line-height:1.7;font-weight:300}
-.pain-a strong{color:var(--gold);font-weight:500}
-
-/* ══ PRICING ══ */
-.pricing-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:1px;background:var(--line);
-  border:1px solid var(--line);
-  border-radius:4px;overflow:hidden;
-  margin-top:56px;
-}
-.price-card{
-  background:var(--bg);
-  padding:32px 24px;
-  position:relative;
-  transition:background .2s;
-}
-.price-card:hover{background:var(--bg2)}
-.price-card.pop{background:var(--bg2)}
-.price-pop-badge{
-  display:inline-block;
-  padding:3px 10px;
-  border:1px solid rgba(201,169,110,.3);
-  border-radius:2px;
-  font-size:9px;font-weight:700;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:var(--gold);margin-bottom:16px;
-}
-.price-tier{
-  font-size:10px;font-weight:700;
-  letter-spacing:.16em;text-transform:uppercase;
-  color:var(--t3);margin-bottom:8px;
-}
-.price-amount{
-  font-family:'Cormorant Garamond',serif;
-  font-size:52px;font-weight:300;
-  line-height:1;margin-bottom:4px;
-  color:var(--t1);
-}
-.price-amount sub{font-size:18px;vertical-align:super;font-family:'DM Sans',sans-serif;font-weight:300;color:var(--t3)}
-.price-amount span{font-size:16px;color:var(--t3);font-family:'DM Sans',sans-serif;font-weight:300}
-.price-desc{font-size:12px;color:var(--t3);margin-bottom:20px;line-height:1.6;font-weight:300}
-.price-divider{height:1px;background:var(--line);margin-bottom:20px}
-.price-features{list-style:none;margin-bottom:24px}
-.price-features li{
-  font-size:12px;color:var(--t2);
-  padding:6px 0;
-  display:flex;align-items:center;gap:8px;
-  border-bottom:1px solid var(--line);
-  font-weight:300;
-}
-.price-features li:last-child{border:none}
-.price-features li::before{
-  content:'';
-  width:4px;height:4px;
-  border-radius:50%;
-  background:var(--gold);opacity:.5;
-  flex-shrink:0;
-}
-.price-btn{
-  width:100%;padding:11px;
-  border-radius:3px;
-  font-size:11px;font-weight:700;
-  font-family:'DM Sans',sans-serif;
-  letter-spacing:.1em;text-transform:uppercase;
-  cursor:pointer;transition:all .2s;
-  border:1px solid var(--line2);
-  background:transparent;color:var(--t2);
-}
-.price-btn:hover{border-color:var(--t2);color:var(--t1)}
-.price-card.pop .price-btn{
-  background:var(--gold);border-color:var(--gold);
-  color:#080710;
-}
-.price-card.pop .price-btn:hover{background:var(--gold-l)}
-.price-compare{
-  text-align:center;margin-top:20px;
-  font-size:12px;color:var(--t3);
-}
-
-/* ══ TOOL SECTION ══ */
-#tool{
-  background:var(--bg2);
-  border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);
-}
-.tool-hdr{
-  text-align:center;
-  padding:80px 24px 0;
-  max-width:600px;
-  margin:0 auto;
-}
-.tool-hdr h2{
-  font-size:clamp(36px,4.5vw,56px);
-  font-weight:300;margin-bottom:12px;
-}
-.tool-hdr p{font-size:15px;color:var(--t2);font-weight:300;line-height:1.7}
-#usage-badge{
-  font-size:15px;font-weight:700;
-  letter-spacing:.04em;margin-top:16px;
-  padding:10px 20px;
-  background:rgba(201,169,110,.08);
-  border:1px solid rgba(201,169,110,.25);
-  border-radius:4px;
-  display:inline-block;
-}
-
-.tool-app{
-  max-width:880px;margin:40px auto;
-  padding:0 24px 80px;
-}
-
-/* Upload */
-.tool-upload{
-  border:1px dashed rgba(255,255,255,.1);
-  border-radius:4px;padding:40px;
-  text-align:center;cursor:pointer;
-  transition:all .2s;margin-bottom:20px;position:relative;
-  background:var(--bg);
-}
-.tool-upload:hover,.tool-upload.drag{
-  border-color:rgba(201,169,110,.3);
-  background:var(--gold-faint);
-}
-.tool-upload.has-img{padding:16px;border-style:solid;border-color:rgba(255,255,255,.1)}
-.tool-upload-icon{font-size:28px;opacity:.15;margin-bottom:8px}
-.tool-upload-text{font-size:13px;color:var(--t2);font-weight:300}
-.tool-upload-hint{font-size:11px;color:var(--t3);margin-top:4px;letter-spacing:.03em}
-.tool-upload img{max-height:180px;border-radius:3px;margin-top:8px}
-.tool-upload-rm{
-  position:absolute;top:12px;right:12px;
-  width:26px;height:26px;border-radius:50%;
-  background:rgba(0,0,0,.7);border:1px solid var(--line2);
-  color:#fff;font-size:11px;cursor:pointer;
-  display:none;align-items:center;justify-content:center;
-}
-.tool-upload.has-img .tool-upload-rm{display:flex}
-
-/* Scene picker */
-.tool-scenes-label{
-  font-size:11px;font-weight:700;
-  letter-spacing:.16em;text-transform:uppercase;
-  color:var(--t3);margin-bottom:12px;display:block;
-}
-.tool-scenes{
-  display:grid;grid-template-columns:repeat(5,1fr);
-  gap:8px;margin-bottom:20px;
-}
-.tool-scene{
-  padding:16px 8px;
-  border-radius:3px;
-  border:1px solid var(--line);
-  background:var(--bg);
-  cursor:pointer;font-family:'DM Sans',sans-serif;
-  text-align:center;color:var(--t2);
-  transition:all .15s;
-}
-.tool-scene:hover{border-color:var(--line2);background:var(--bg2)}
-.tool-scene.on{
-  border-color:rgba(201,169,110,.4);
-  background:rgba(201,169,110,.05);
-  color:var(--t1);
-}
-.tool-scene-swatch{
-  width:32px;height:32px;border-radius:4px;
-  margin:0 auto 8px;border:1px solid rgba(255,255,255,.06);
-}
-.tool-scene-name{font-size:12px;font-weight:600;letter-spacing:.02em}
-.tool-scene-desc{font-size:10px;color:var(--t3);margin-top:3px}
-
-/* Gen button */
-.tool-gen{
-  width:100%;padding:16px 0;
-  border-radius:3px;border:none;
-  font-size:12px;font-weight:700;
-  font-family:'DM Sans',sans-serif;
-  letter-spacing:.12em;text-transform:uppercase;
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-  transition:all .2s;margin-bottom:28px;
-}
-.tool-gen.ready{
-  background:var(--gold);color:#080710;
-}
-.tool-gen.ready:hover{background:var(--gold-l);transform:translateY(-1px);box-shadow:0 8px 28px rgba(201,169,110,.2)}
-.tool-gen.off{background:rgba(255,255,255,.03);color:var(--t3);cursor:not-allowed;border:1px solid var(--line)}
-.tool-gen.busy{background:rgba(201,169,110,.1);color:var(--gold);cursor:wait;pointer-events:none;border:1px solid rgba(201,169,110,.2)}
-
-@keyframes spin{to{transform:rotate(360deg)}}
-.spinner{
-  width:14px;height:14px;border-radius:50%;
-  border:2px solid rgba(201,169,110,.2);
-  border-top-color:var(--gold);
-  animation:spin .7s linear infinite;display:inline-block;
-}
-
-/* Status */
-.tool-status{text-align:center;margin-bottom:20px;min-height:20px}
-.tool-status-msg{font-size:12px;color:var(--gold);letter-spacing:.04em}
-.tool-status-error{font-size:12px;color:#e05050}
-
-/* Pipeline */
-/* Pipeline — hidden, branded spinner shown instead */
-.pipeline-row{ display:none }
-.pipeline-step,.pipeline-arrow{ display:none }
-
-/* Results */
-.tool-results{display:none}
-.tool-results.show{display:block}
-.tool-results-hdr{
-  display:flex;justify-content:space-between;align-items:center;
-  margin-bottom:12px;
-}
-.tool-results-title{
-  font-family:'Cormorant Garamond',serif;
-  font-size:22px;font-weight:400;
-}
-.tool-results-actions{display:flex;gap:8px}
-.tool-act{
-  padding:8px 14px;border-radius:3px;
-  border:1px solid var(--line2);background:transparent;
-  font-size:11px;font-weight:600;
-  letter-spacing:.06em;text-transform:uppercase;
-  cursor:pointer;font-family:'DM Sans',sans-serif;
-  transition:all .15s;color:var(--t2);
-}
-.tool-act:hover{background:rgba(255,255,255,.04);color:var(--t1)}
-.tool-act.dl{border-color:rgba(201,169,110,.25);color:var(--gold)}
-.tool-act.dl:hover{background:rgba(201,169,110,.06)}
-.tool-result-img{
-  width:100%;border-radius:3px;
-  border:1px solid var(--line);
-  overflow:hidden;background:var(--bg);
-}
-.tool-result-img img{width:100%;display:block}
-.tool-result-meta{
-  display:flex;justify-content:space-between;
-  padding:10px 14px;font-size:11px;
-  color:var(--t3);border-top:1px solid var(--line);
-  letter-spacing:.03em;
-}
-
-/* Sizes */
-.tool-sizes{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
-.tool-size{
-  padding:6px 12px;border-radius:3px;
-  border:1px solid var(--line);background:transparent;
-  color:var(--t2);font-size:11px;
-  cursor:pointer;font-family:'DM Sans',sans-serif;
-  letter-spacing:.04em;transition:all .15s;
-}
-.tool-size:hover{border-color:var(--line2)}
-.tool-size.on{border-color:rgba(201,169,110,.3);color:var(--gold);background:rgba(201,169,110,.04);font-weight:600}
-
-/* ══ FOOTER ══ */
-.footer{
-  padding:56px 48px;
-  border-top:1px solid var(--line);
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:16px;
-}
-.footer-left{}
-.footer-brand{
-  font-family:'Cormorant Garamond',serif;
-  font-size:20px;font-weight:400;
-  letter-spacing:.04em;margin-bottom:4px;
-}
-.footer p{font-size:12px;color:var(--t3);font-weight:300;letter-spacing:.03em}
-.footer-links{display:flex;gap:24px;align-items:center}
-.footer-links a{font-size:11px;color:var(--t3);text-decoration:none;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
-.footer-links a:hover{color:var(--t2)}
-
-/* Toast */
-#toast{
-  position:fixed;bottom:24px;left:50%;
-  transform:translateX(-50%);
-  padding:10px 20px;border-radius:3px;
-  background:rgba(13,12,19,.95);
-  border:1px solid rgba(201,169,110,.2);
-  color:var(--gold);font-size:12px;font-weight:600;
-  letter-spacing:.05em;z-index:999;
-  backdrop-filter:blur(12px);display:none;
-}
-
-/* Animations */
-@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-@keyframes flash{from{opacity:0;transform:translateX(-50%) translateY(-6px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
-
-.fade-up{animation:fadeUp .5s ease both}
-.d1{animation-delay:.1s}.d2{animation-delay:.2s}.d3{animation-delay:.3s}.d4{animation-delay:.4s}
-
-/* Responsive */
-@media(max-width:860px){
-  .hdr{padding:0 24px}
-  .hdr-nav{display:none}
-  .steps,.scenes-grid,.pains{grid-template-columns:1fr}
-  .pricing-grid{grid-template-columns:1fr 1fr}
-  .tool-scenes{grid-template-columns:repeat(5,1fr)}
-  .hero-stats{flex-direction:column;border:none;gap:0}
-  .hero-stat{border-right:none;border-bottom:1px solid var(--line);width:100%}
-  .footer{flex-direction:column;align-items:flex-start;padding:40px 24px}
-}
-@media(max-width:480px){
-  .tool-scenes{grid-template-columns:repeat(2,1fr)}
-  .pricing-grid{grid-template-columns:1fr}
-}
-</style>
-</head>
-<body>
-
-<div id="toast"></div>
-
-<!-- ══ HEADER ══ -->
-<header class="hdr">
-  <div class="hdr-logo">
-    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <polygon points="24,4 36,19 24,15" fill="#e2c97e"/>
-      <polygon points="24,4 12,19 24,15" fill="#c9a96e"/>
-      <polygon points="12,19 24,15 36,19 24,23" fill="#b8913a"/>
-      <polygon points="12,19 24,23 24,44" fill="#9a7840"/>
-      <polygon points="36,19 24,23 24,44" fill="#c9a96e"/>
-      <polygon points="24,4 30,19 24,15" fill="rgba(255,240,180,0.3)"/>
-    </svg>
-
-    <span class="hdr-logo-name">Gemly Studio</span>
-  </div>
-  <nav class="hdr-nav">
-    <a href="#how">Process</a>
-    <a href="#scenes">Scenes</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#tool" class="hdr-cta">Try Free</a>
-  </nav>
-</header>
-
-<!-- ══ HERO ══ -->
-<section class="hero">
-  <div class="hero-bg"></div>
-  <div class="glow-orb" style="width:600px;height:400px;top:10%;left:30%;background:radial-gradient(circle,rgba(201,169,110,.06),transparent 70%)"></div>
-
-  <div class="hero-rule fade-up"></div>
-  <p class="hero-eyebrow fade-up d1">AI Jewelry Photography</p>
-  <h1 class="fade-up d2">
-    Studio quality.<br>
-    <em>Without the studio.</em>
-  </h1>
-  <p class="hero-sub fade-up d3">Upload a phone photo. Choose a scene. Download professional product images sized for every marketplace — in under 30 seconds.</p>
-  <div class="hero-actions fade-up d4">
-    <a href="#tool" class="btn-primary">Try Free — No Card Required</a>
-    <a href="#how" class="btn-ghost">See How It Works</a>
-  </div>
-  <p class="hero-note fade-up d4">3 free shots included · Then from $29/month</p>
-
-  <div class="hero-stats fade-up d4">
-    <div class="hero-stat">
-      <div class="hero-stat-n">9</div>
-      <div class="hero-stat-l">Studio Scenes</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-n">6</div>
-      <div class="hero-stat-l">Platform Sizes</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-n">~20s</div>
-      <div class="hero-stat-l">Per Photo</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-n">$0.39</div>
-      <div class="hero-stat-l">Per Image on Pro</div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider"></div>
-
-<!-- ══ HOW IT WORKS ══ -->
-<div class="section" id="how">
-  <p class="section-label">The Process</p>
-  <h2 class="section-title">Three steps.<br><em>Zero photography skills.</em></h2>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <h3>Upload Your Photo</h3>
-      <p>Snap a photo on your phone. Any background works — messy desk, kitchen counter, wherever. Gemly removes it automatically using AI.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <h3>Choose a Scene</h3>
-      <p>Select from 9 studio scenes engineered specifically for jewelry. Every lighting setup, every surface is tuned to make metals and gemstones shine.</p>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <h3>Download & List</h3>
-      <p>Export in the exact pixel dimensions for Etsy, Amazon, Instagram, Pinterest, Shopify, or TikTok. All sizes in one click.</p>
-    </div>
-  </div>
-</div>
-
-<div class="section-divider"></div>
-
-<!-- ══ SCENES ══ -->
-<div class="section" id="scenes">
-  <p class="section-label">Studio Scenes</p>
-  <h2 class="section-title">9 scenes built<br><em>for jewelry.</em></h2>
-  <p class="section-body" style="margin-top:12px">Each scene is designed around how light interacts with metal, stone, and fine detail — not repurposed from a generic photo tool.</p>
-  <div class="scenes-grid">
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#1a1428,#2d2040)"></div>
-      <div class="scene-name">Purple Silk</div>
-      <div class="scene-desc">Luxurious draped charmeuse for fine jewelry</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#1a1a2a,#2a2a3e)"></div>
-      <div class="scene-name">Black Ice</div>
-      <div class="scene-desc">Obsidian luxury — metals and gems pop</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#f8f6f2,#ece8e0)"></div>
-      <div class="scene-name">Studio White</div>
-      <div class="scene-desc">Amazon & Shopify compliant clean white</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#0a090e,#181620)"></div>
-      <div class="scene-name">Dark Luxury</div>
-      <div class="scene-desc">Dramatic black surface — dramatic editorial</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#d8ceb8,#b4a888)"></div>
-      <div class="scene-name">Botanical Flat</div>
-      <div class="scene-desc">Warm linen lifestyle for artisan jewelry</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#e8d0b8,#c4a88c)"></div>
-      <div class="scene-name">On-Hand</div>
-      <div class="scene-desc">Lifestyle worn — converts browsers to buyers</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#c8922a,#8a5c18)"></div>
-      <div class="scene-name">Warm Suede</div>
-      <div class="scene-desc">Cool-warm contrast for gold and copper tones</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#1a1008,#2e1e08)"></div>
-      <div class="scene-name">Candle Glow</div>
-      <div class="scene-desc">Moody amber bokeh — romantic and intimate</div>
-    </div>
-    <div class="scene-card">
-      <div class="scene-swatch" style="background:linear-gradient(135deg,#f5f0ee,#e8dbd8)"></div>
-      <div class="scene-name">Rose & Cream</div>
-      <div class="scene-desc">Bright feminine luxury for delicate pieces</div>
-    </div>
-  </div>
-</div>
-
-<div class="section-divider"></div>
-
-<!-- ══ PAIN POINTS ══ -->
-<div class="section">
-  <p class="section-label">Why Gemly</p>
-  <h2 class="section-title">Sound<br><em>familiar?</em></h2>
-  <div class="pains">
-    <div class="pain">
-      <div class="pain-q">"I spent $400 on a photographer and the photos still looked off."</div>
-      <div class="pain-a"><strong>Gemly starts at $29/month.</strong> Generate unlimited variants until you get the perfect shot. No scheduling, no reshoots, no invoice.</div>
-    </div>
-    <div class="pain">
-      <div class="pain-q">"AI tools make my jewelry look like plastic. The reflections are wrong."</div>
-      <div class="pain-a"><strong>We're jewelry-only.</strong> Every scene, every light setup is tuned for metals, gemstones, and fine detail — not a generic image tool.</div>
-    </div>
-    <div class="pain">
-      <div class="pain-q">"My listings on Etsy, Amazon, and TikTok all need different sizes."</div>
-      <div class="pain-a"><strong>One click, every platform.</strong> Export sized for Etsy 4:3, Amazon 1:1, Instagram, Pinterest, Shopify, and TikTok 9:16 simultaneously.</div>
-    </div>
-  </div>
-</div>
-
-<div class="section-divider"></div>
-
-<!-- ══ PRICING ══ -->
-<div class="section" id="pricing">
-  <p class="section-label">Pricing</p>
-  <h2 class="section-title">Simple,<br><em>transparent pricing.</em></h2>
-  <p class="section-body" style="margin-top:12px">No hidden fees. Cancel anytime. Every plan includes all 9 scenes and all marketplace sizes.</p>
-  <div class="pricing-grid">
-    <div class="price-card">
-      <div class="price-tier">Free</div>
-      <div class="price-amount"><sub>$</sub>0</div>
-      <div class="price-desc">See the quality for yourself — no card required.</div>
-      <div class="price-divider"></div>
-      <ul class="price-features">
-        <li>3 images, one-time</li>
-        <li>All 9 scenes</li>
-        <li>All marketplace sizes</li>
-        <li>AI background removal</li>
-      </ul>
-      <button class="price-btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">Try Free</button>
-    </div>
-    <div class="price-card">
-      <div class="price-tier">Starter</div>
-      <div class="price-amount"><sub>$</sub>29<span>/mo</span></div>
-      <div class="price-desc">For sellers building their shop.</div>
-      <div class="price-divider"></div>
-      <ul class="price-features">
-        <li>50 images / month</li>
-        <li>All 9 scenes</li>
-        <li>All marketplace sizes</li>
-        <li>AI background removal</li>
-        <li>Priority processing</li>
-      </ul>
-      <button class="price-btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">Get Started</button>
-    </div>
-    <div class="price-card pop">
-      <div class="price-pop-badge">Most Popular</div>
-      <div class="price-tier">Pro</div>
-      <div class="price-amount"><sub>$</sub>59<span>/mo</span></div>
-      <div class="price-desc">For active sellers scaling their catalogue.</div>
-      <div class="price-divider"></div>
-      <ul class="price-features">
-        <li>150 images / month</li>
-        <li>All 9 scenes</li>
-        <li>All marketplace sizes</li>
-        <li>AI background removal</li>
-        <li>Brand consistency lock</li>
-        <li>Priority processing</li>
-      </ul>
-      <button class="price-btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">Get Started</button>
-    </div>
-    <div class="price-card">
-      <div class="price-tier">Unlimited</div>
-      <div class="price-amount"><sub>$</sub>99<span>/mo</span></div>
-      <div class="price-desc">Power sellers with high volume needs.</div>
-      <div class="price-divider"></div>
-      <ul class="price-features">
-        <li>500 images / month</li>
-        <li>All 9 scenes</li>
-        <li>All marketplace sizes</li>
-        <li>AI background removal</li>
-        <li>Brand consistency lock</li>
-        <li>API access</li>
-      </ul>
-      <button class="price-btn" onclick="document.getElementById('tool').scrollIntoView({behavior:'smooth'})">Get Started</button>
-    </div>
-  </div>
-  <p class="price-compare">Professional jewelry photography costs $25–50 per image. Gemly Studio's Pro plan works out to ~$0.39/image.</p>
-</div>
-
-<div class="section-divider"></div>
-
-<!-- ══ TOOL ══ -->
-<div id="tool">
-  <div class="tool-hdr">
-    <p class="section-label" style="text-align:center">The Studio</p>
-    <h2 class="serif" style="font-size:clamp(36px,4.5vw,56px);font-weight:300;margin-bottom:12px">Try it now</h2>
-    <p style="font-size:14px;color:var(--t2);font-weight:300;line-height:1.7">Upload any jewelry photo and see the transformation. 3 free shots, no card required.</p>
-    <div id="usage-badge" style="margin-top:16px;text-align:center;display:block"></div>
-  </div>
-
-  <div class="tool-app">
-    <!-- Upload -->
-    <div class="tool-upload" id="upload-zone" onclick="document.getElementById('file-input').click()">
-      <div class="tool-upload-icon">◈</div>
-      <div class="tool-upload-text">Click to upload your jewelry photo</div>
-      <div class="tool-upload-hint">JPG, PNG or WebP · Any background works</div>
-      <div id="upload-preview"></div>
-      <div class="tool-upload-rm" id="upload-rm" onclick="event.stopPropagation();clearUpload()">✕</div>
-    </div>
-    <input type="file" id="file-input" accept="image/png,image/jpeg,image/webp" style="display:none">
-
-    <!-- Jewellery Type -->
-    <div style="margin-bottom:14px;padding:12px 16px;background:var(--bg2);border:1px solid var(--line);border-radius:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
-      <span style="font-size:11px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap">Jewellery Type</span>
-      <div style="display:flex;gap:6px;flex-wrap:wrap">
-        <button id="jtype2_ring" class="jtype-btn active" onclick="setJewelryType('ring')">💍 Ring</button>
-        <button id="jtype2_earrings" class="jtype-btn" onclick="setJewelryType('earrings')">✦ Earrings</button>
-        <button id="jtype2_necklace" class="jtype-btn" onclick="setJewelryType('necklace')">📿 Necklace</button>
-        <button id="jtype2_bracelet" class="jtype-btn" onclick="setJewelryType('bracelet')">⬡ Bracelet</button>
       </div>
       
     </div>
@@ -2506,10 +1450,10 @@ async function downloadResult() {
 
 // ─── SUBSCRIPTION TIERS ───────────────────────────────────────────────────────
 const TIERS = {
-  free:    { name: 'Free',    photosPerMonth: 3,    scenes: ['studio','marble','concrete','botanical'] },
-  starter: { name: 'Starter', photosPerMonth: 50,   scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
+  free:    { name: 'Free',    photosPerMonth: 3,    scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
+  starter: { name: 'Starter', photosPerMonth: 50,   scenes: ['studio','marble','concrete','botanical','velvet','rosepetal'] },
   pro:     { name: 'Pro',     photosPerMonth: 150,  scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
-  studio:  { name: 'Studio',  photosPerMonth: 500,  scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
+  studio:  { name: 'Studio',  photosPerMonth: 350,  scenes: ['studio','marble','concrete','botanical','velvet','dark','rosepetal','onhand','warmsuede','candleglow'] },
 };
 
 // ─── USAGE & TIER STORAGE ─────────────────────────────────────────────────────
