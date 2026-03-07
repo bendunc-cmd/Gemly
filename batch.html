@@ -299,6 +299,13 @@ const TYPE_HINTS = {
   bracelet: 'On-Hand scene: bracelet worn on wrist',
 };
 
+const ONHAND_CHIP_LABELS = {
+  ring:     'On-Hand',
+  earrings: 'In-Ear',
+  necklace: 'On-Neck',
+  bracelet: 'On-Wrist',
+};
+
 function setJewelryType(val) {
   jewelryType = val;
   document.querySelectorAll('.type-chip').forEach(c => c.classList.remove('active'));
@@ -306,12 +313,11 @@ function setJewelryType(val) {
   // Update hint text
   const hint = document.getElementById('typeHint');
   if (hint) hint.textContent = TYPE_HINTS[val] || '';
-  // Auto-select onhand if earrings/necklace/bracelet — deselect if back to ring
-  // (user can still manually override)
+  // Auto-select onhand if earrings/necklace/bracelet
   if (val !== 'ring') {
     selectedScenes.add('onhand');
   }
-  // Re-render scene chips to reflect any state change
+  // Re-render scene chips to reflect label + state change
   renderSceneSelector();
 }
 
@@ -321,7 +327,8 @@ function renderSceneSelector() {
   SCENES.forEach(s => {
     const chip = document.createElement('button');
     chip.className = 'scene-chip' + (selectedScenes.has(s.id) ? ' active' : '');
-    chip.innerHTML = `<span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${s.swatch};margin-right:6px;vertical-align:middle"></span>${s.name}`;
+    const label = s.id === 'onhand' ? (ONHAND_CHIP_LABELS[jewelryType] || s.name) : s.name;
+    chip.innerHTML = `<span style="display:inline-block;width:10px;height:10px;border-radius:3px;background:${s.swatch};margin-right:6px;vertical-align:middle"></span>${label}`;
     chip.onclick = () => {
       if (selectedScenes.has(s.id)) selectedScenes.delete(s.id);
       else selectedScenes.add(s.id);
