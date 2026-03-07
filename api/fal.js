@@ -53,7 +53,7 @@ export default async function handler(req, res) {
       return res.status(200).json({ url: data.url });
 
     } else if (action === 'birefnet') {
-      falUrl = 'https://fal.run/fal-ai/birefnet-v2';
+      falUrl = 'https://fal.run/fal-ai/birefnet/v2';
       falOptions = {
         method: 'POST',
         headers: {
